@@ -6,6 +6,7 @@ import net.artgamestudio.rgatest.util.Param;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -17,6 +18,8 @@ import retrofit2.http.GET;
  */
 public class RestApi {
 
+    private static Services services;
+
     /**
      * Retrofit instance for communication
      */
@@ -27,10 +30,22 @@ public class RestApi {
                 .build();
     }
 
+    public static Services getServicesInstance() {
+        if (services == null) {
+            services = getRetrofitService().create(Services.class);
+        }
+        return services;
+    }
+
+    public static <T>T callApi(Call<T> call) throws Exception {
+        Response response = call.execute();
+        return (T)response.body();
+    }
+
     /**
      * All services relationated with contact will be placed here.
      */
-    public interface ContactServices {
+    public interface Services {
 
         @GET("content.json")
         Call<List<Contact>> getContacts();

@@ -31,6 +31,9 @@ public class SplashActivity extends BaseActivity {
     public void setupData() throws Exception {
         //showing up animation
         UtilView.animateView(this, ivLogo, 0);
+
+        ContactRN contactRN = new ContactRN(this, this);
+        contactRN.getAndImportContacts();
     }
 
     @Override
