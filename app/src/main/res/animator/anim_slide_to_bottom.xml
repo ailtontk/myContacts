@@ -10,7 +10,7 @@
             android:valueFrom="0f"
             android:valueTo="1f"
             android:valueType="floatType"
-            android:duration="@integer/game_empty_time"/>
+            android:duration="600"/>
     </set>
 
     <set
@@ -21,7 +21,7 @@
             android:valueFrom="1"
             android:valueTo="0"
             android:valueType="floatType"
-            android:duration="@integer/game_empty_time"/>
+            android:duration="600"/>
     </set>
 
 </set>

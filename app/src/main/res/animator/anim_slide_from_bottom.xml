@@ -10,7 +10,7 @@
             android:valueFrom="0.9f"
             android:valueTo="-0.1f"
             android:valueType="floatType"
-            android:duration="@integer/game_fill_up_time"/>
+            android:duration="600"/>
 
         <objectAnimator
             android:propertyName="translationY"
@@ -28,7 +28,7 @@
             android:valueFrom="0"
             android:valueTo="1"
             android:valueType="floatType"
-            android:duration="@integer/game_fill_up_time"/>
+            android:duration="600"/>
     </set>
 
 </set>

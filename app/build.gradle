@@ -42,4 +42,8 @@ dependencies {
     //Rest
     compile "com.squareup.retrofit2:retrofit:$retrofit"
     compile "com.squareup.retrofit2:converter-gson:$retrofit"
+
+    //ORM
+    compile "org.greenrobot:greendao-generator:$greenDAO"
+    compile "org.greenrobot:greendao:$greenDAO"
 }

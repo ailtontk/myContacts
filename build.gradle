@@ -27,6 +27,7 @@ allprojects {
         butterknifeVersion = '8.7.0'
         universalImageLoaderVersion = '1.9.5'
         retrofit = '2.2.0'
+        greenDAO = '3.2.0'
     }
 }
 

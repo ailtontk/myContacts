@@ -1,7 +1,9 @@
-package net.artgamestudio.rgatest;
+package net.artgamestudio.rgatest.ui.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import net.artgamestudio.rgatest.R;
 
 public class MainActivity extends AppCompatActivity {
 
