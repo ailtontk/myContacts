@@ -11,6 +11,11 @@ public abstract class Param {
         public static final String URL = "https://s3-sa-east-1.amazonaws.com/rgasp-mobile-test/v1/";
     }
 
+    public abstract class Database {
+        public static final String NAME = "rga";
+        public static final int VERSION = 1;
+    }
+
     public abstract class Contact {
 
     }
