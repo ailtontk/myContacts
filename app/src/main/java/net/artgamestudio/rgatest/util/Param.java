@@ -17,7 +17,8 @@ public abstract class Param {
     }
 
     public abstract class Contact {
-
+        public static final int CONTACTS_SERVICE_RESPONSE = 1;
+        public static final int CONTACTS_IMPORTED = 2;
     }
 
     public abstract class Intent {
