@@ -8,7 +8,7 @@ package net.artgamestudio.rgatest.util;
 public abstract class Param {
 
     public abstract class Net {
-        public static final String URL = "https://s3-sa-east-1.amazonaws.com";
+        public static final String URL = "https://s3-sa-east-1.amazonaws.com/rgasp-mobile-test/v1/";
     }
 
     public abstract class Contact {

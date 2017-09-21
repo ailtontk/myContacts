@@ -1,7 +1,11 @@
 package net.artgamestudio.rgatest.net;
 
+import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.util.Param;
 
+import java.util.List;
+
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
@@ -23,8 +27,12 @@ public class RestApi {
                 .build();
     }
 
+    /**
+     * All services relationated with contact will be placed here.
+     */
     public interface ContactServices {
 
-
+        @GET("content.json")
+        Call<List<Contact>> getContacts();
     }
 }
