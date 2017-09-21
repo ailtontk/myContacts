@@ -1,10 +1,13 @@
 package net.artgamestudio.rgatest.data.pojo;
 
+import org.greenrobot.greendao.annotation.Entity;
+
 /**
  * Created by ailtonramos on 21/09/2017.<br>
  *
  * POJO for get contact service
  */
+@Entity
 public class Contact {
 
     private String name;

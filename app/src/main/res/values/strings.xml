@@ -10,5 +10,7 @@
     <string name="please_wait">Please wait…</string>
     <string name="notification">Notification</string>
 
+    <!--***************** SPLASH SCREEN *****************-->
+    <string name="splash_content_logo">The RGA logo</string>
 
 </resources>
