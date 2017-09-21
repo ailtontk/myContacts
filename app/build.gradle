@@ -38,4 +38,8 @@ dependencies {
 
     //universal image loader
     compile "com.nostra13.universalimageloader:universal-image-loader:$universalImageLoaderVersion"
+
+    //Rest
+    compile "com.squareup.retrofit2:retrofit:$retrofit"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit"
 }

@@ -1,4 +1,4 @@
-package net.artgamestudio.rga_test;
+package net.artgamestudio.rgatest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

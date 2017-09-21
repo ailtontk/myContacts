@@ -26,6 +26,7 @@ allprojects {
         playServicesVersion = '10.2.4'
         butterknifeVersion = '8.7.0'
         universalImageLoaderVersion = '1.9.5'
+        retrofit = '2.2.0'
     }
 }
 

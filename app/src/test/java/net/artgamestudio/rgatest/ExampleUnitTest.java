@@ -1,4 +1,4 @@
-package net.artgamestudio.rga_test;
+package net.artgamestudio.rgatest;
 
 import org.junit.Test;
 

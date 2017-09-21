@@ -1,4 +1,4 @@
-package net.artgamestudio.rga_test;
+package net.artgamestudio.rgatest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
