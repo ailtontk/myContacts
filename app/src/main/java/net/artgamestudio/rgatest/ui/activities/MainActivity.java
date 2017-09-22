@@ -1,5 +1,7 @@
 package net.artgamestudio.rgatest.ui.activities;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -12,8 +14,12 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
 import net.artgamestudio.rgatest.R;
 import net.artgamestudio.rgatest.base.BaseActivity;
+import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.data.rn.ContactRN;
+import net.artgamestudio.rgatest.ui.adapters.ContactsAdapter;
 import net.artgamestudio.rgatest.util.Util;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -29,6 +35,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
     /***** VARIABLES *****/
     private ContactRN mContactRN;
+    private ContactsAdapter mAdapter;
     private boolean mSearchPressed;
 
     @Override
@@ -42,6 +49,49 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
         //Changes the logo to the default font (bold)
         Util.changeFont(this, tvMainLogo);
+
+        //fill the list
+        fillContactList();
+    }
+
+    /**
+     * Show loading instead contact list
+     */
+    private void showLoading() {
+        pbLoading.setVisibility(View.VISIBLE);
+        cvListContainer.setVisibility(View.GONE);
+        tvNoRegister.setVisibility(View.GONE);
+    }
+
+    /**
+     * Show card list instead loading
+     * @param hasRegisters If the contact list has registers
+     */
+    private void showContactList(boolean hasRegisters) {
+        //Show cardlist again
+        pbLoading.setVisibility(View.GONE);
+        cvListContainer.setVisibility(View.VISIBLE);
+
+        //if there is no results, show the string
+        tvNoRegister.setVisibility(hasRegisters ? View.GONE : View.VISIBLE);
+    }
+
+    /**
+     * Fills the contact list on screen
+     */
+    private void fillContactList(String...name) throws Exception {
+        //Get all contacts
+        showLoading();
+        List<Contact> contacts = mContactRN.getContacts(name);
+
+        //create the adapter
+        mAdapter = new ContactsAdapter(this, this, contacts);
+        rvContacts.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false));
+        rvContacts.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+
+        //Show the contact list again
+        showContactList(contacts != null && contacts.size() > 0);
     }
 
     @Override
@@ -87,7 +137,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
             pbLoading.setVisibility(View.VISIBLE);
             cvListContainer.setVisibility(View.GONE);
-            mContactRN.getContacts(newText);
+            fillContactList(newText);
         } catch (Exception error) {
             Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
         }

@@ -90,7 +90,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
     /**
      * Inner class for view holder pattern
      */
-    private class ContactHolder extends RecyclerView.ViewHolder {
+    class ContactHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ivPhoto) ImageView ivPhoto;
         @BindView(R.id.tvName) TextView tvName;

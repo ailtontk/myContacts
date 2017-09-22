@@ -19,7 +19,7 @@ public class App extends Application {
         super.onCreate();
 
         //Create a instance of DaoSession when app is opening
-        mDaoSession = new DaoMaster(new DaoMaster.DevOpenHelper(this, Param.Database.NAME).getWritableDatabase()).newSession();
+        mDaoSession = new DaoMaster(new DbOpenHelper(this, Param.Database.NAME).getWritableDatabase()).newSession();
     }
 
     public static DaoSession getDaoSession() {
