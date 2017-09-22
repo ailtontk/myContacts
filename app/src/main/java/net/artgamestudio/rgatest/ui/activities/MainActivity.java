@@ -3,6 +3,7 @@ package net.artgamestudio.rgatest.ui.activities;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,9 +24,10 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements MaterialSearchView.OnQueryTextListener {
+public class MainActivity extends BaseActivity implements MaterialSearchView.OnQueryTextListener, MaterialSearchView.SearchViewListener {
 
     /***** VIEWS *****/
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.tvMainLogo) TextView tvMainLogo;
     @BindView(R.id.searchView) MaterialSearchView searchView;
     @BindView(R.id.pbLoading) ProgressBar pbLoading;
@@ -46,6 +48,9 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     @Override
     public void setupData() throws Exception {
         mContactRN = new ContactRN(this, this);
+
+        //Sets toolbar
+        setSupportActionBar(toolbar);
 
         //Changes the logo to the default font (bold)
         Util.changeFont(this, tvMainLogo);
@@ -104,7 +109,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
             MenuItem menuItem = menu.findItem(R.id.mnuSearch);
             searchView.setMenuItem(menuItem);
             searchView.setOnQueryTextListener(this);
-            searchView.showSearch();
+            searchView.setOnSearchViewListener(this);
         } catch (Exception error) {
             Log.e("Error", "Error at onCreateOptionsMenu in " + getClass().getName() + ". " + error.getMessage());
         }
@@ -131,16 +136,36 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         try {
             //If hasn't text, do nothing
             if (newText.length() == 0 || mSearchPressed) {
-                mSearchPressed = false;
+                if (newText.length() > 0)
+                    mSearchPressed = false;
                 return false;
             }
 
-            pbLoading.setVisibility(View.VISIBLE);
-            cvListContainer.setVisibility(View.GONE);
             fillContactList(newText);
         } catch (Exception error) {
             Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public void onSearchViewShown() {
+        try {
+            fillContactList();
+        } catch (Exception error) {
+            Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
+        }
+    }
+
+    @Override
+    public void onSearchViewClosed() {
+        try {
+            if (!mSearchPressed || mAdapter.getItemCount() == 0)
+                fillContactList();
+
+            mSearchPressed = false;
+        } catch (Exception error) {
+            Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
+        }
     }
 }

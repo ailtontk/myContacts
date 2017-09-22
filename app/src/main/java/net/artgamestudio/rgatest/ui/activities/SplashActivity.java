@@ -2,12 +2,14 @@ package net.artgamestudio.rgatest.ui.activities;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import net.artgamestudio.rgatest.R;
 import net.artgamestudio.rgatest.base.BaseActivity;
 import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.util.Param;
+import net.artgamestudio.rgatest.util.Util;
 import net.artgamestudio.rgatest.util.UtilView;
 
 import butterknife.BindView;
@@ -20,17 +22,19 @@ import butterknife.BindView;
  */
 public class SplashActivity extends BaseActivity {
 
-    @BindView(R.id.ivLogo) ImageView ivLogo;
+    @BindView(R.id.tvLogo) TextView tvLogo;
 
     @Override
     public int setView() throws Exception {
+        setFullScreen();
         return R.layout.activity_splash;
     }
 
     @Override
     public void setupData() throws Exception {
         //showing up animation
-        UtilView.animateView(this, ivLogo, 0);
+        Util.changeFont(this, tvLogo);
+        UtilView.animateView(this, tvLogo, 0);
 
         ContactRN contactRN = new ContactRN(this, this);
         contactRN.getAndImportContacts();
@@ -42,10 +46,14 @@ public class SplashActivity extends BaseActivity {
         if (fromClass == ContactRN.class) {
             //If its the get contact service response -- The contact list is now imported
             if (id == Param.ComponentCompact.CONTACTS_IMPORTED) {
+                //If has failed for some reason
+                if (!result)
+                    Toast.makeText(this, getString(R.string.splash_faileD_to_dowload), Toast.LENGTH_SHORT).show();
+
                 //This operation its supposed to be fast, so after the response
-                //we going to wait 1.5 seconds before animations run and more 1 to change to main activity
-                UtilView.animateView(this, ivLogo, 1500, R.animator.anim_disapearing);
-                startMainActivity(2500);
+                //we going to wait 2 seconds before animations run and more 1 to change to main activity
+                UtilView.animateView(this, tvLogo, 2000, R.animator.anim_disapearing);
+                startMainActivity(3000);
             }
         }
     }
@@ -60,6 +68,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         }, after);
     }

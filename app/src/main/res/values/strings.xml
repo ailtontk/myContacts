@@ -15,9 +15,10 @@
 
     <!--***************** SPLASH SCREEN *****************-->
     <string name="splash_content_logo">The RGA logo</string>
+    <string name="splash_faileD_to_dowload">Contact list download failed! Try again later</string>
 
     <!--***************** MAIN SCREEN *****************-->
     <string name="main_search_text">Type a contact name…</string>
-    <string name="main_no_results">We do not found any contacts with that name ;(</string>
+    <string name="main_no_results">We do not found any contacts ;(</string>
 
 </resources>

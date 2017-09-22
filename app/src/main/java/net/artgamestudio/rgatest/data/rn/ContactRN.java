@@ -8,6 +8,7 @@ import android.util.Log;
 import net.artgamestudio.rgatest.base.BaseRN;
 import net.artgamestudio.rgatest.base.interfaces.IComponentContact;
 import net.artgamestudio.rgatest.data.pojo.Contact;
+import net.artgamestudio.rgatest.data.pojo.ContactDao;
 import net.artgamestudio.rgatest.net.RestApi;
 import net.artgamestudio.rgatest.util.App;
 import net.artgamestudio.rgatest.util.Param;
@@ -33,6 +34,7 @@ public class ContactRN extends BaseRN {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                boolean result = false;
                 try {
                     //If contacts are already imported just returns
                     if (areContactsImported())
@@ -41,15 +43,20 @@ public class ContactRN extends BaseRN {
                     //Otherwise get the contact list
                     List<Contact> contacts = RestApi.callApi(RestApi.getServicesInstance().getContacts());
 
+                    //if has failed to get
+                    if (contacts == null || contacts.size() == 0)
+                        return;
+
                     //save on db
                     App.getDaoSession().getContactDao().insertInTx(contacts);
 
                     //if its here, it was successfully saved.
                     setContactsImported(true);
+                    result = true;
                 } catch (Exception error) {
                     Log.e("error", "Error at getAndImportContacts in " + ContactRN.this.getClass() + ". Error: " + error.getMessage());
                 } finally {
-                    mContact.contactComponent(ContactRN.class, Param.ComponentCompact.CONTACTS_IMPORTED, true);
+                    mContact.contactComponent(ContactRN.class, Param.ComponentCompact.CONTACTS_IMPORTED, result);
                 }
             }
         }).start();
@@ -64,7 +71,10 @@ public class ContactRN extends BaseRN {
             return App.getDaoSession().getContactDao().loadAll();
 
         //If has a name, search by name
-        return App.getDaoSession().getContactDao().queryRaw("name like ?", name[0]+"%");
+        return App.getDaoSession().getContactDao().queryBuilder()
+                .where(ContactDao.Properties.Name.like("%"+name[0]+"%"))
+                .orderAsc(ContactDao.Properties.Name)
+                .list();
     }
 
     /**
