@@ -42,9 +42,7 @@ public class ContactRN extends BaseRN {
                     List<Contact> contacts = RestApi.callApi(RestApi.getServicesInstance().getContacts());
 
                     //save on db
-                    for (Contact contact : contacts) {
-                        App.getDaoSession().insert(contact);
-                    }
+                    App.getDaoSession().getContactDao().insertInTx(contacts);
 
                     //if its here, it was successfully saved.
                     setContactsImported(true);
@@ -55,6 +53,14 @@ public class ContactRN extends BaseRN {
                 }
             }
         }).start();
+    }
+
+    /**
+     * Get all contacts from database
+     * @return All contacts saved
+     */
+    public List<Contact> getContacts() {
+        return App.getDaoSession().getContactDao().loadAll();
     }
 
     /**

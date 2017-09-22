@@ -1,15 +1,24 @@
 package net.artgamestudio.rgatest.ui.activities;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.widget.TextView;
 
 import net.artgamestudio.rgatest.R;
+import net.artgamestudio.rgatest.base.BaseActivity;
+import net.artgamestudio.rgatest.data.rn.ContactRN;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
+
+public class MainActivity extends BaseActivity {
+
+    /***** VARIABLES *****/
+    private ContactRN mContactRN;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public int setView() throws Exception {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void setupData() throws Exception {
     }
 }
