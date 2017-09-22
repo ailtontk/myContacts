@@ -156,7 +156,7 @@ public class UtilView {
         Typeface typeface = textView.getTypeface();
 
         //Apply the font
-        typeface = Typeface.createFromAsset(context.getAssets(), "fonts/charadesappfont.ttf");
+        typeface = Typeface.createFromAsset(context.getAssets(), "fonts/bold.ttf");
         textView.setTypeface(typeface);
     }
 

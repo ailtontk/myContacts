@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RGA-test</string>
+    <string name="app_name">MyContacts</string>
 
     <!--***************** GENERIC WORDS *****************-->
     <string name="yes">Yes</string>
@@ -10,7 +10,14 @@
     <string name="please_wait">Please wait…</string>
     <string name="notification">Notification</string>
 
+    <!--***************** TOOLBAR *****************-->
+    <string name="toolbar_mnu_search">Search</string>
+
     <!--***************** SPLASH SCREEN *****************-->
     <string name="splash_content_logo">The RGA logo</string>
+
+    <!--***************** MAIN SCREEN *****************-->
+    <string name="main_search_text">Type a contact name…</string>
+    <string name="main_no_results">We do not found any contacts with that name ;(</string>
 
 </resources>

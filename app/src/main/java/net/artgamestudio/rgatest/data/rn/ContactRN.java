@@ -59,8 +59,12 @@ public class ContactRN extends BaseRN {
      * Get all contacts from database
      * @return All contacts saved
      */
-    public List<Contact> getContacts() {
-        return App.getDaoSession().getContactDao().loadAll();
+    public List<Contact> getContacts(String...name) {
+        if (name == null || name.length == 0)
+            return App.getDaoSession().getContactDao().loadAll();
+
+        //If has a name, search by name
+        return App.getDaoSession().getContactDao().queryRaw("name like ?", name[0]+"%");
     }
 
     /**

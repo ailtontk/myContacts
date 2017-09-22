@@ -3,9 +3,11 @@ package net.artgamestudio.rgatest.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,6 +50,21 @@ public class Util {
         Pattern pattern = Pattern.compile(emailPattern, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    /**
+     * Changes the current font to the charadesApp font.
+     *
+     * @param textView The textview to send
+     * @throws Exception
+     */
+    public static void changeFont(Context context, TextView textView) throws Exception {
+        //Get the type face from text view
+        Typeface typeface = textView.getTypeface();
+
+        //Apply the font
+        typeface = Typeface.createFromAsset(context.getAssets(), "fonts/bold.ttf");
+        textView.setTypeface(typeface);
     }
 
     /**
