@@ -43,10 +43,9 @@ public class SplashActivity extends BaseActivity {
             //If its the get contact service response -- The contact list is now imported
             if (id == Param.Contact.CONTACTS_IMPORTED) {
                 //This operation its supposed to be fast, so after the response
-                //we going to wait 1.5 seconds before animations run and more 0.5 to change to main activity
-                //Animates the logo to disapear and starts main activity after 0,5s
+                //we going to wait 1.5 seconds before animations run and more 1 to change to main activity
                 UtilView.animateView(this, ivLogo, 1500, R.animator.anim_disapearing);
-                startMainActivity(2000);
+                startMainActivity(2500);
             }
         }
     }
