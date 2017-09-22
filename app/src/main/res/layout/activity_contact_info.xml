@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/colorGrey2"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <!-- EXPANDED CONTAINER -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/MyAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/contact_info_container_height"
+        android:fitsSystemWindows="true">
+
+        <!-- A collpasing bar -->
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/colToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleTextAppearance="@style/ToolbarTextTitleEditCharade"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleTextAppearance="@style/ToolbarTextTitleEditCharade"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="true">
+
+            <!-- Background image-->
+            <ImageView
+                android:id="@+id/ivPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="center" />
+
+            <!-- Toolbar that will be showed when container decrease -->
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/ToolbarWithReturnButton"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- Scrollview with data -->
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/svMainScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="20dip"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- scroll child -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

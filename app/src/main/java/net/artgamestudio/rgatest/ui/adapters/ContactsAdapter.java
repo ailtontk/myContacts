@@ -67,6 +67,9 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             Glide.with(mContext)
                     .load(contact.getPhoto())
                     .into(holder.ivPhoto);
+
+            //Saves the current position
+            holder.container.setTag(position);
         } catch (Exception error) {
             Log.e("error", "Error at onBindViewHolder in " + getClass().getName() + ". Error: " + error.getMessage());
         }
@@ -92,6 +95,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
      */
     class ContactHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.container) View container;
         @BindView(R.id.ivPhoto) ImageView ivPhoto;
         @BindView(R.id.tvName) TextView tvName;
 
@@ -101,9 +105,9 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         }
 
         @OnClick(R.id.container)
-        public void onClick() {
+        public void onClick(View view) {
             //Informs who created the adapter that container were pressed
-            mContact.contactComponent(ContactsAdapter.class, Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED, true);
+            mContact.contactComponent(ContactsAdapter.class, Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED, true, view.getTag());
         }
     }
 }

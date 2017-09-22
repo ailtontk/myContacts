@@ -41,6 +41,6 @@ public abstract class Param {
      * Used for intent keys
      */
     public abstract class Intent {
-
+        public static final String CONTACT = "CONTACT";
     }
 }

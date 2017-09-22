@@ -1,5 +1,6 @@
 package net.artgamestudio.rgatest.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import net.artgamestudio.rgatest.base.BaseActivity;
 import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.ui.adapters.ContactsAdapter;
+import net.artgamestudio.rgatest.util.Param;
 import net.artgamestudio.rgatest.util.Util;
 
 import java.util.List;
@@ -39,6 +41,9 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     private ContactRN mContactRN;
     private ContactsAdapter mAdapter;
     private boolean mSearchPressed;
+
+    /***** CONSTANTS *****/
+    private final int REQUEST_CONTACT_INFO = 1;
 
     @Override
     public int setView() throws Exception {
@@ -97,6 +102,18 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
         //Show the contact list again
         showContactList(contacts != null && contacts.size() > 0);
+    }
+
+    @Override
+    protected void onReceiveData(Class fromClass, int id, boolean result, Object... objects) throws Exception {
+        //If comes from adapter
+        if (fromClass == ContactsAdapter.class) {
+            //If user clicked on container
+            if (id == Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED) {
+                //The contact position its on object vararg.
+                startContactInfoActivity(mAdapter.getContact((int) objects[0]));
+            }
+        }
     }
 
     @Override
@@ -167,5 +184,14 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         } catch (Exception error) {
             Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
         }
+    }
+
+    /**
+     * Starts the contact info activity
+     */
+    private void startContactInfoActivity(Contact contact) {
+        Intent intent = new Intent(this, ContactInfoActivity.class);
+        intent.putExtra(Param.Intent.CONTACT, contact);
+        startActivityForResult(intent, REQUEST_CONTACT_INFO);
     }
 }

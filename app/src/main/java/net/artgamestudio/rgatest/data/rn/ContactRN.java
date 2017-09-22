@@ -37,8 +37,10 @@ public class ContactRN extends BaseRN {
                 boolean result = false;
                 try {
                     //If contacts are already imported just returns
-                    if (areContactsImported())
+                    if (areContactsImported()) {
+                        result = true;
                         return;
+                    }
 
                     //Otherwise get the contact list
                     List<Contact> contacts = RestApi.callApi(RestApi.getServicesInstance().getContacts());

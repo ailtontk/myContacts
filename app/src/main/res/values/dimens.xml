@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Main screen -->
     <dimen name="mnu_icon_size">26dp</dimen>
+
+    <!-- Contact info -->
+    <dimen name="contact_info_container_height">250dp</dimen>
+
+    <!-- Cards text -->
+    <dimen name="card_title_size">16sp</dimen>
+    <dimen name="card_subtitle_size">14sp</dimen>
+
 </resources>
