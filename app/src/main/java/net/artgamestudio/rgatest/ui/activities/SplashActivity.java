@@ -41,7 +41,7 @@ public class SplashActivity extends BaseActivity {
         //If its coming from contactRN
         if (fromClass == ContactRN.class) {
             //If its the get contact service response -- The contact list is now imported
-            if (id == Param.Contact.CONTACTS_IMPORTED) {
+            if (id == Param.ComponentCompact.CONTACTS_IMPORTED) {
                 //This operation its supposed to be fast, so after the response
                 //we going to wait 1.5 seconds before animations run and more 1 to change to main activity
                 UtilView.animateView(this, ivLogo, 1500, R.animator.anim_disapearing);

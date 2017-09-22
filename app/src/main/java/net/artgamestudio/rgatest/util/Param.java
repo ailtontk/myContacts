@@ -24,9 +24,10 @@ public abstract class Param {
     /**
      * Used for component contact operations
      */
-    public abstract class Contact {
+    public abstract class ComponentCompact {
         public static final int CONTACTS_SERVICE_RESPONSE = 1;
         public static final int CONTACTS_IMPORTED = 2;
+        public static final int CONTACTS_LIST_ITEM_CLICKED = 3;
     }
 
     /**

@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by ailtonramos on 21/09/2017.<br>
  *
- * All business operations for Contact class will be placed here.
+ * All business operations for ComponentCompact class will be placed here.
  */
 public class ContactRN extends BaseRN {
 
@@ -49,7 +49,7 @@ public class ContactRN extends BaseRN {
                 } catch (Exception error) {
                     Log.e("error", "Error at getAndImportContacts in " + ContactRN.this.getClass() + ". Error: " + error.getMessage());
                 } finally {
-                    mContact.contactComponent(ContactRN.class, Param.Contact.CONTACTS_IMPORTED, true);
+                    mContact.contactComponent(ContactRN.class, Param.ComponentCompact.CONTACTS_IMPORTED, true);
                 }
             }
         }).start();
