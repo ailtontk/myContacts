@@ -1,12 +1,15 @@
 package net.artgamestudio.rgatest.data.rn;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import net.artgamestudio.rgatest.base.BaseRN;
 import net.artgamestudio.rgatest.base.interfaces.IComponentContact;
 import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.net.RestApi;
+import net.artgamestudio.rgatest.util.App;
 import net.artgamestudio.rgatest.util.Param;
 
 import java.util.List;
@@ -31,7 +34,20 @@ public class ContactRN extends BaseRN {
             @Override
             public void run() {
                 try {
+                    //If contacts are already imported just returns
+                    if (areContactsImported())
+                        return;
+
+                    //Otherwise get the contact list
                     List<Contact> contacts = RestApi.callApi(RestApi.getServicesInstance().getContacts());
+
+                    //save on db
+                    for (Contact contact : contacts) {
+                        App.getDaoSession().insert(contact);
+                    }
+
+                    //if its here, it was successfully saved.
+                    setContactsImported(true);
                 } catch (Exception error) {
                     Log.e("error", "Error at getAndImportContacts in " + ContactRN.this.getClass() + ". Error: " + error.getMessage());
                 } finally {
@@ -39,5 +55,26 @@ public class ContactRN extends BaseRN {
                 }
             }
         }).start();
+    }
+
+    /**
+     * Set on shared preferences if the contacts list were imported from server or not
+     * @param imported True if yes, false otherwise
+     */
+    private void setContactsImported(boolean imported) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean(Param.Prefs.IMPORTED, imported);
+        editor.apply();
+    }
+
+    /**
+     * Check on shared preferences if contacts were imported already
+     * @return True if yes, false otherwise
+     */
+    private boolean areContactsImported() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return preferences.getBoolean(Param.Prefs.IMPORTED, false);
     }
 }
