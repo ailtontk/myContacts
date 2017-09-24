@@ -20,9 +20,9 @@
             android:id="@+id/colToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/ToolbarTextTitleEditCharade"
+            app:collapsedTitleTextAppearance="@style/CollapsingToolbarTextInfoClosed"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@style/ToolbarTextTitleEditCharade"
+            app:expandedTitleTextAppearance="@style/CollapsingToolbarTextInfoOpened"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="true">
 
