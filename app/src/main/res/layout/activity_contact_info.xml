@@ -100,8 +100,7 @@
                             android:layout_toEndOf="@id/ivMail"
                             android:layout_centerVertical="true"
                             android:maxLines="1"
-                            android:maxLength="40"
-                            android:text="ailton.tk@hotmail.com"/>
+                            android:maxLength="40"/>
 
                         <!-- Div -->
                         <FrameLayout
@@ -136,8 +135,7 @@
                             android:layout_toEndOf="@id/ivBorn"
                             android:layout_centerVertical="true"
                             android:maxLines="1"
-                            android:maxLength="40"
-                            android:text="27/03/1994"/>
+                            android:maxLength="40"/>
 
                         <!-- Div -->
                         <FrameLayout
@@ -174,8 +172,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"
-                            android:text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"/>
+                            android:layout_marginRight="10dp"/>
                     </RelativeLayout>
                 </LinearLayout>
 
