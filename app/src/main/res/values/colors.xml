@@ -10,6 +10,9 @@
     <color name="colorMyContactsAppBlueDark">#076a9f</color>
     <color name="colorMyContactsAppBlueLight">#18a1de</color>
 
+    <!-- App colors -->
+    <color name="colorDiv">@color/colorGrey4</color>
+
     <!-- Colors -->
     <color name="colorGrey1">#F5F5F5</color>
     <color name="colorGrey2">#EEEEEE</color>

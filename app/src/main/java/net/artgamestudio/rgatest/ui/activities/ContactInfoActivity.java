@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import net.artgamestudio.rgatest.R;
 import net.artgamestudio.rgatest.base.BaseActivity;
@@ -44,8 +45,14 @@ public class ContactInfoActivity extends BaseActivity {
     public void setupData() throws Exception {
         setSupportActionBar(toolbar);
 
+        //Defines the image size
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop();
+
+        //Put on screen
         Glide.with(this)
                 .load(mContact.getPhoto())
+                .apply(requestOptions)
                 .into(ivPhoto);
 
         colToolbar.setTitle(mContact.getName());
@@ -55,9 +62,9 @@ public class ContactInfoActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
-            /** Checks the touched menu **/
+            // Checks the touched menu
             switch (item.getItemId()) {
-                /** If touched at back button **/
+                // If touched at back button
                 case android.R.id.home:
                     finish();
                     break;

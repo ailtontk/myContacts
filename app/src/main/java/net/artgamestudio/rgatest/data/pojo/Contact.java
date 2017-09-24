@@ -21,6 +21,7 @@ public class Contact implements Parcelable {
     private String born;
     private String bio;
     private String photo;
+
     @Generated(hash = 933263070)
     public Contact(String name, String email, String born, String bio,
             String photo) {

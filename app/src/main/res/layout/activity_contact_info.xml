@@ -31,6 +31,7 @@
                 android:id="@+id/ivPhoto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:adjustViewBounds="true"
                 android:scaleType="center" />
 
             <!-- Toolbar that will be showed when container decrease -->
@@ -60,6 +61,125 @@
             android:animateLayoutChanges="true"
             android:gravity="center"
             android:orientation="vertical">
+
+            <!-- Info Card -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin"
+                android:padding="@dimen/card_padding">
+
+                <!-- Card child -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical">
+
+                    <!-- EMAIL -->
+                    <RelativeLayout
+                        android:id="@+id/rlEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Icon -->
+                        <ImageView
+                            android:id="@+id/ivMail"
+                            android:layout_width="@dimen/info_icon"
+                            android:layout_height="@dimen/info_icon"
+                            android:background="@drawable/ic_email"
+                            style="@style/IconContactInfo"/>
+
+                        <!-- email -->
+                        <TextView
+                            android:id="@+id/tvEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/ivMail"
+                            android:layout_toEndOf="@id/ivMail"
+                            android:layout_centerVertical="true"
+                            android:maxLines="1"
+                            android:maxLength="40"
+                            android:text="ailton.tk@hotmail.com"/>
+
+                        <!-- Div -->
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/div_height"
+                            android:layout_toRightOf="@+id/ivMail"
+                            android:layout_toEndOf="@id/ivMail"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/colorDiv"/>
+                    </RelativeLayout>
+
+                    <!-- BORN -->
+                    <RelativeLayout
+                        android:id="@+id/rlBorn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Icon -->
+                        <ImageView
+                            android:id="@+id/ivBorn"
+                            android:layout_width="@dimen/info_icon"
+                            android:layout_height="@dimen/info_icon"
+                            android:background="@drawable/ic_calendar"
+                            style="@style/IconContactInfo"/>
+
+                        <!-- Born date -->
+                        <TextView
+                            android:id="@+id/tvBorn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/ivBorn"
+                            android:layout_toEndOf="@id/ivBorn"
+                            android:layout_centerVertical="true"
+                            android:maxLines="1"
+                            android:maxLength="40"
+                            android:text="27/03/1994"/>
+
+                        <!-- Div -->
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/div_height"
+                            android:layout_toRightOf="@+id/ivBorn"
+                            android:layout_toEndOf="@id/ivBorn"
+                            android:layout_alignParentBottom="true"
+                            android:background="@color/colorDiv"/>
+                    </RelativeLayout>
+
+                    <!-- Bio -->
+                    <RelativeLayout
+                        android:id="@+id/rlBio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <!-- Icon -->
+                        <ImageView
+                            android:id="@+id/ivBio"
+                            android:layout_width="@dimen/info_icon"
+                            android:layout_height="@dimen/info_icon"
+                            android:background="@drawable/ic_description"
+                            style="@style/IconContactInfo"/>
+
+                        <!-- Bio -->
+                        <TextView
+                            android:id="@+id/tvBio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/ivBio"
+                            android:layout_toEndOf="@id/ivBio"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww"/>
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

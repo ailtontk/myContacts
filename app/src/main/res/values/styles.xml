@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="IconContactInfo">
+        <item name="android:layout_marginRight">@dimen/info_icon_left_margin</item>
+        <item name="android:layout_marginLeft">@dimen/info_icon_left_margin</item>
+        <item name="android:layout_marginTop">@dimen/info_icon_margin</item>
+        <item name="android:layout_marginBottom">@dimen/info_icon_margin</item>
+    </style>
+
     <!--************************************** TEXTS ************************************** -->
     <style name="TextStyleCardTitle">
         <item name="android:textStyle">bold</item>

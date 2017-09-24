@@ -7,8 +7,23 @@
     <!-- Contact info -->
     <dimen name="contact_info_container_height">250dp</dimen>
 
+    <!-- Cards -->
+    <dimen name="card_margin">20dp</dimen>
+    <dimen name="card_padding">10dp</dimen>
+
+    <!-- div -->
+    <dimen name="div_height">1dp</dimen>
+
+    <!-- Contact info -->
+    <dimen name="info_icon">26dp</dimen>
+    <dimen name="info_icon_left_margin">20dp</dimen>
+    <dimen name="info_icon_margin">10dp</dimen>
+    <dimen name="info_text_left_margin">30dp</dimen>
+
+    <!--**************************** TEXTS ****************************-->
     <!-- Cards text -->
     <dimen name="card_title_size">16sp</dimen>
     <dimen name="card_subtitle_size">14sp</dimen>
+
 
 </resources>
