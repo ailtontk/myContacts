@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,6 +78,12 @@ public class ContactInfoActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mnu_contact_info, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
@@ -85,6 +92,11 @@ public class ContactInfoActivity extends BaseActivity {
                 // If touched at back button
                 case android.R.id.home:
                     finish();
+                    break;
+
+                // If touched at edit button
+                case R.id.mnuEdit:
+                    startEditContactActivity();
                     break;
             }
         } catch (Exception error) {
@@ -107,5 +119,10 @@ public class ContactInfoActivity extends BaseActivity {
         } catch (Exception error) {
             Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());
         }
+    }
+
+    private void startEditContactActivity() {
+        Intent intent = new Intent(this, EditContactActivity.class);
+        startActivityForResult(intent, REQUEST_EDIT_CONTACT);
     }
 }

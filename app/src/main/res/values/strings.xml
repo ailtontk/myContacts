@@ -12,6 +12,7 @@
 
     <!--***************** TOOLBAR *****************-->
     <string name="toolbar_mnu_search">Search</string>
+    <string name="toolbar_mnu_edit">Edit</string>
 
     <!--***************** SPLASH SCREEN *****************-->
     <string name="splash_content_logo">The RGA logo</string>
