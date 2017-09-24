@@ -109,5 +109,4 @@ public class Contact implements Parcelable {
     public void setId(Long id) {
         this.id = id;
     }
-
 }

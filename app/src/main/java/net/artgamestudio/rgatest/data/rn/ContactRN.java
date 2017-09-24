@@ -135,7 +135,7 @@ public class ContactRN extends BaseRN {
      * @param contact A contact to add
      */
     public void addContact(Contact contact) throws Exception {
-
+        App.getDaoSession().getContactDao().insert(contact);
     }
 
     /**
@@ -143,23 +143,15 @@ public class ContactRN extends BaseRN {
      * @param contact A contact with id filled
      */
     public void updateContact(Contact contact) throws Exception {
-
-    }
-
-    /**
-     * Updates a contact in db.
-     * @param id A contact id
-     */
-    public void updateContact(int id) throws Exception {
-
+        App.getDaoSession().getContactDao().update(contact);
     }
 
     /**
      * Removes a contact from db
-     * @param id The contact id
+     * @param contact A contact with id filled
      */
-    public void removecontact(int id) throws Exception {
-
+    public void removecontact(Contact contact) throws Exception {
+        App.getDaoSession().getContactDao().delete(contact);
     }
 
     /**
@@ -168,6 +160,6 @@ public class ContactRN extends BaseRN {
      * @return A filled contact object
      */
     public Contact getContact(Long id) throws Exception {
-        return null;
+        return App.getDaoSession().getContactDao().loadByRowId(id);
     }
 }
