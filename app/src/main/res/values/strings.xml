@@ -24,6 +24,9 @@
     <string name="main_no_results">We do not found any contacts ;(</string>
 
     <!--***************** EDIT OR CREATE CONTACT SCREEN *****************-->
+    <string name="edit_title_create">Create a contact</string>
+    <string name="edit_title_edit">Edit a contact</string>
+
     <string name="edit_name_empty">You must type a name!</string>
     <string name="edit_mail_empty">You must type an e-mail!</string>
     <string name="edit_mail_invalid">Invalid e-mail!</string>
@@ -34,5 +37,8 @@
     <string name="edit_mail_hint">Contact e-mail</string>
     <string name="edit_born_hint">Contact born date</string>
     <string name="edit_bio_hint">Type a bio for this contact</string>
+
+    <string name="edit_save_success">Successfully saved!</string>
+    <string name="edit_save_failed">Saving contact failed!</string>
 
 </resources>

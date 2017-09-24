@@ -1,7 +1,9 @@
 package net.artgamestudio.rgatest.ui.activities;
 
+import android.content.Intent;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -141,6 +143,12 @@ public class EditContactActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.mnu_edit_contact, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         try {
@@ -153,11 +161,24 @@ public class EditContactActivity extends BaseActivity {
                     break;
 
                 // If touched at edit button
-                case R.id.mnuEdit:
+                case R.id.mnuDone:
                     if (!validateFields())
                         break;
 
                     boolean result = mContactRN.saveContactOnDatabase(mContact, getEditedContact());
+
+                    //Show the result to the user
+                    String msg = result ? getString(R.string.edit_save_success) : getString(R.string.edit_save_failed);
+                    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+
+                    //if its edition, returns the new contact
+                    if (mContact != null) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Param.Intent.CONTACT, mContactRN.getContact(mContact.getId()));
+                        setResult(result ? RESULT_OK : RESULT_CANCELED, intent);
+                        break;
+                    }
+
                     setResult(result ? RESULT_OK : RESULT_CANCELED);
                     finish();
                     break;
