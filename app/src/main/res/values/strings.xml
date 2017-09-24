@@ -13,6 +13,7 @@
     <!--***************** TOOLBAR *****************-->
     <string name="toolbar_mnu_search">Search</string>
     <string name="toolbar_mnu_edit">Edit</string>
+    <string name="toolbar_mnu_done">Done</string>
 
     <!--***************** SPLASH SCREEN *****************-->
     <string name="splash_content_logo">The RGA logo</string>
@@ -21,5 +22,17 @@
     <!--***************** MAIN SCREEN *****************-->
     <string name="main_search_text">Type a contact name…</string>
     <string name="main_no_results">We do not found any contacts ;(</string>
+
+    <!--***************** EDIT OR CREATE CONTACT SCREEN *****************-->
+    <string name="edit_name_empty">You must type a name!</string>
+    <string name="edit_mail_empty">You must type an e-mail!</string>
+    <string name="edit_mail_invalid">Invalid e-mail!</string>
+    <string name="edit_date_empty">You must choose a date!</string>
+    <string name="edit_bio_empty">You must type a bio!</string>
+
+    <string name="edit_name_hint">Contact name</string>
+    <string name="edit_mail_hint">Contact e-mail</string>
+    <string name="edit_born_hint">Contact born date</string>
+    <string name="edit_bio_hint">Type a bio for this contact</string>
 
 </resources>

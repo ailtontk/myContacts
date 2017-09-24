@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 import java.io.Serializable;
 
@@ -16,15 +17,18 @@ import java.io.Serializable;
 @Entity(nameInDb = "contact")
 public class Contact implements Parcelable {
 
+    @Id(autoincrement = true)
+    private Long id;
     private String name;
     private String email;
     private String born;
     private String bio;
     private String photo;
 
-    @Generated(hash = 933263070)
-    public Contact(String name, String email, String born, String bio,
+    @Generated(hash = 797175119)
+    public Contact(Long id, String name, String email, String born, String bio,
             String photo) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.born = born;
@@ -98,6 +102,12 @@ public class Contact implements Parcelable {
     }
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }

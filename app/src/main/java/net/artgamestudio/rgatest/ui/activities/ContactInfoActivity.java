@@ -54,15 +54,18 @@ public class ContactInfoActivity extends BaseActivity {
     public void setupData() throws Exception {
         setSupportActionBar(toolbar);
 
-        //Defines the image size
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.centerCrop();
+        //If has photo, put it on screen
+        if (mContact.getPhoto() != null && mContact.getPhoto().length() > 0) {
+            //Defines the image size
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.centerCrop();
 
-        //Put on screen
-        Glide.with(this)
-                .load(mContact.getPhoto())
-                .apply(requestOptions)
-                .into(ivPhoto);
+            //Put on screen
+            Glide.with(this)
+                    .load(mContact.getPhoto())
+                    .apply(requestOptions)
+                    .into(ivPhoto);
+        }
 
         addContactInfoOnFields(mContact);
     }
@@ -123,6 +126,7 @@ public class ContactInfoActivity extends BaseActivity {
 
     private void startEditContactActivity() {
         Intent intent = new Intent(this, EditContactActivity.class);
+        intent.putExtra(Param.Intent.CONTACT, mContact);
         startActivityForResult(intent, REQUEST_EDIT_CONTACT);
     }
 }

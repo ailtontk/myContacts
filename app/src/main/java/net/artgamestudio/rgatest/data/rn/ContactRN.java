@@ -99,4 +99,75 @@ public class ContactRN extends BaseRN {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         return preferences.getBoolean(Param.Prefs.IMPORTED, false);
     }
+
+
+    /**
+     * Saves or update contact in database
+     * @return True if was successfully saved, false otherwise
+     */
+    public boolean saveContactOnDatabase(Contact currentContact, Contact newContact) {
+
+        try {
+            if (currentContact != null) {
+                currentContact = getContact(currentContact.getId());
+            }
+
+            //If its null, even after try to get from db, adds
+            if (currentContact == null) {
+                addContact(newContact);
+                return true;
+            }
+
+            //otherwise, updates the current contact
+            newContact.setPhoto(currentContact.getPhoto());
+            updateContact(newContact);
+        } catch (Exception error) {
+            Log.e("error", "Error at getAndImportContacts in " + ContactRN.this.getClass() + ". Error: " + error.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Adds a new contact on db
+     * @param contact A contact to add
+     */
+    public void addContact(Contact contact) throws Exception {
+
+    }
+
+    /**
+     * Updates a contact in db.
+     * @param contact A contact with id filled
+     */
+    public void updateContact(Contact contact) throws Exception {
+
+    }
+
+    /**
+     * Updates a contact in db.
+     * @param id A contact id
+     */
+    public void updateContact(int id) throws Exception {
+
+    }
+
+    /**
+     * Removes a contact from db
+     * @param id The contact id
+     */
+    public void removecontact(int id) throws Exception {
+
+    }
+
+    /**
+     * Get a contact from database based on a contact id
+     * @param id The contact id
+     * @return A filled contact object
+     */
+    public Contact getContact(Long id) throws Exception {
+        return null;
+    }
 }

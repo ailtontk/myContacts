@@ -1,50 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:background="@color/colorGrey2"
-    android:gravity="center"
     android:orientation="vertical">
 
-    <!-- EXPANDED CONTAINER -->
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/MyAppbar"
+    <!-- Toolbar -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/ToolbarWithReturnButton"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/contact_info_container_height"
-        android:fitsSystemWindows="true">
-
-        <!-- A collpasing bar -->
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/colToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:collapsedTitleTextAppearance="@style/CollapsingToolbarTextInfoClosed"
-            app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleTextAppearance="@style/CollapsingToolbarTextInfoOpened"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:titleEnabled="true">
-
-            <!-- Background image-->
-            <ImageView
-                android:id="@+id/ivPhoto"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="center"
-                android:src="@drawable/ic_no_picutre_big"/>
-
-            <!-- Toolbar that will be showed when container decrease -->
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                style="@style/ToolbarWithReturnButton"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin" />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary" />
 
     <!-- Scrollview with data -->
     <android.support.v4.widget.NestedScrollView
@@ -52,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
-        android:paddingBottom="20dip"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:paddingBottom="20dip">
 
         <!-- scroll child -->
         <LinearLayout
@@ -62,6 +29,15 @@
             android:animateLayoutChanges="true"
             android:gravity="center"
             android:orientation="vertical">
+
+            <!-- Background image-->
+            <ImageView
+                android:id="@+id/ivPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/edit_image_height"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                android:src="@drawable/ic_no_picture"/>
 
             <!-- Info Card -->
             <android.support.v7.widget.CardView
@@ -78,6 +54,17 @@
                     android:animateLayoutChanges="true"
                     android:orientation="vertical">
 
+                    <!-- Name -->
+                    <EditText
+                        android:id="@+id/etName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:maxLines="1"
+                        android:maxLength="20"
+                        android:inputType="textCapSentences"
+                        android:hint="@string/edit_name_hint"/>
+
                     <!-- EMAIL -->
                     <RelativeLayout
                         android:id="@+id/rlEmail"
@@ -93,24 +80,18 @@
                             style="@style/IconContactInfo"/>
 
                         <!-- email -->
-                        <TextView
-                            android:id="@+id/tvEmail"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/ivMail"
                             android:layout_toEndOf="@id/ivMail"
                             android:layout_centerVertical="true"
+                            android:layout_margin="5dp"
+                            android:inputType="textEmailAddress"
                             android:maxLines="1"
-                            android:maxLength="40"/>
-
-                        <!-- Div -->
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/div_height"
-                            android:layout_toRightOf="@+id/ivMail"
-                            android:layout_toEndOf="@id/ivMail"
-                            android:layout_alignParentBottom="true"
-                            android:background="@color/colorDiv"/>
+                            android:maxLength="40"
+                            android:hint="@string/edit_mail_hint"/>
                     </RelativeLayout>
 
                     <!-- BORN -->
@@ -128,24 +109,18 @@
                             style="@style/IconContactInfo"/>
 
                         <!-- Born date -->
-                        <TextView
-                            android:id="@+id/tvBorn"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/etBorn"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/ivBorn"
                             android:layout_toEndOf="@id/ivBorn"
                             android:layout_centerVertical="true"
+                            android:layout_margin="5dp"
+                            android:inputType="date"
                             android:maxLines="1"
-                            android:maxLength="40"/>
-
-                        <!-- Div -->
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/div_height"
-                            android:layout_toRightOf="@+id/ivBorn"
-                            android:layout_toEndOf="@id/ivBorn"
-                            android:layout_alignParentBottom="true"
-                            android:background="@color/colorDiv"/>
+                            android:maxLength="40"
+                            android:hint="@string/edit_born_hint"/>
                     </RelativeLayout>
 
                     <!-- Bio -->
@@ -163,17 +138,16 @@
                             style="@style/IconContactInfo"/>
 
                         <!-- Bio -->
-                        <TextView
-                            android:id="@+id/tvBio"
-                            android:layout_width="wrap_content"
+                        <EditText
+                            android:id="@+id/etBio"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_toRightOf="@+id/ivBio"
                             android:layout_toEndOf="@id/ivBio"
+                            android:layout_margin="5dp"
                             android:layout_centerVertical="true"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginRight="10dp"/>
+                            android:inputType="textMultiLine"
+                            android:hint="@string/edit_bio_hint"/>
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -181,4 +155,4 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>

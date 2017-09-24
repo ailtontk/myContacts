@@ -20,6 +20,9 @@
     <dimen name="info_icon_margin">10dp</dimen>
     <dimen name="info_text_left_margin">30dp</dimen>
 
+    <!-- Edit contact -->
+    <dimen name="edit_image_height">150dp</dimen>
+
     <!--**************************** TEXTS ****************************-->
     <!-- Cards text -->
     <dimen name="card_title_size">16sp</dimen>
