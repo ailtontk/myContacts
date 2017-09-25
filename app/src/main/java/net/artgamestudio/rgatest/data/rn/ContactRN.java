@@ -7,10 +7,9 @@ import android.util.Log;
 
 import net.artgamestudio.rgatest.base.BaseRN;
 import net.artgamestudio.rgatest.base.interfaces.IComponentContact;
+import net.artgamestudio.rgatest.data.dao.ContactDAO;
 import net.artgamestudio.rgatest.data.pojo.Contact;
-import net.artgamestudio.rgatest.data.pojo.ContactDao;
 import net.artgamestudio.rgatest.net.RestApi;
-import net.artgamestudio.rgatest.util.App;
 import net.artgamestudio.rgatest.util.Param;
 
 import java.util.List;
@@ -21,6 +20,8 @@ import java.util.List;
  * All business operations for ComponentCompact class will be placed here.
  */
 public class ContactRN extends BaseRN {
+
+    private ContactDAO mContactDAO;
 
     public ContactRN(Context context, IComponentContact contact) {
         super(context, contact);
@@ -50,7 +51,9 @@ public class ContactRN extends BaseRN {
                         return;
 
                     //save on db
-                    App.getDaoSession().getContactDao().insertInTx(contacts);
+                    for (Contact contact : contacts) {
+                        mContactDAO.insert(contact);
+                    }
 
                     //if its here, it was successfully saved.
                     setContactsImported(true);
@@ -68,15 +71,8 @@ public class ContactRN extends BaseRN {
      * Get all contacts from database
      * @return All contacts saved
      */
-    public List<Contact> getContacts(String...name) {
-        if (name == null || name.length == 0)
-            return App.getDaoSession().getContactDao().loadAll();
-
-        //If has a name, search by name
-        return App.getDaoSession().getContactDao().queryBuilder()
-                .where(ContactDao.Properties.Name.like("%"+name[0]+"%"))
-                .orderAsc(ContactDao.Properties.Name)
-                .list();
+    public List<Contact> getContacts(String...name) throws Exception {
+        return mContactDAO.getAll(name);
     }
 
     /**
@@ -135,7 +131,7 @@ public class ContactRN extends BaseRN {
      * @param contact A contact to add
      */
     public void addContact(Contact contact) throws Exception {
-        App.getDaoSession().getContactDao().insert(contact);
+        mContactDAO.insert(contact);
     }
 
     /**
@@ -143,15 +139,15 @@ public class ContactRN extends BaseRN {
      * @param contact A contact with id filled
      */
     public void updateContact(Contact contact) throws Exception {
-        App.getDaoSession().getContactDao().update(contact);
+        mContactDAO.update(contact);
     }
 
     /**
      * Removes a contact from db
      * @param contact A contact with id filled
      */
-    public void removecontact(Contact contact) throws Exception {
-        App.getDaoSession().getContactDao().delete(contact);
+    public void removeContact(Contact contact) throws Exception {
+        mContactDAO.remove(contact.getId());
     }
 
     /**
@@ -160,6 +156,6 @@ public class ContactRN extends BaseRN {
      * @return A filled contact object
      */
     public Contact getContact(Long id) throws Exception {
-        return App.getDaoSession().getContactDao().loadByRowId(id);
+        return mContactDAO.get(id);
     }
 }

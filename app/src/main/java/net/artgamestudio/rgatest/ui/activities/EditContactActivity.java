@@ -29,22 +29,17 @@ import butterknife.BindView;
 public class EditContactActivity extends BaseActivity {
 
     /***** VIEWS *****/
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.ivPhoto)
-    ImageView ivPhoto;
-    @BindView(R.id.etName)
-    EditText etName;
-    @BindView(R.id.etEmail)
-    EditText etEmail;
-    @BindView(R.id.etBorn)
-    EditText etBorn;
-    @BindView(R.id.etBio)
-    EditText etBio;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.ivPhoto) ImageView ivPhoto;
+    @BindView(R.id.etName) EditText etName;
+    @BindView(R.id.etEmail) EditText etEmail;
+    @BindView(R.id.etBorn) EditText etBorn;
+    @BindView(R.id.etBio) EditText etBio;
 
     /***** VARIABLES *****/
     private ContactRN mContactRN;
     private Contact mContact;
+    private Long mContactId;
 
     @Override
     public int setView() throws Exception {
@@ -53,15 +48,22 @@ public class EditContactActivity extends BaseActivity {
 
     @Override
     public void getParam() throws Exception {
-        mContact = getIntent().getParcelableExtra(Param.Intent.CONTACT);
+        mContactId = getIntent().getLongExtra(Param.Intent.CONTACT_ID, -1);
+    }
+
+    @Override
+    public void setupToolbar() throws Exception {
+        String toolbarText = mContactId != -1 ? getString(R.string.edit_title_edit) : getString(R.string.edit_title_create);
+        toolbar.setTitle(toolbarText);
+        setSupportActionBar(toolbar);
     }
 
     @Override
     public void setupData() throws Exception {
-        setSupportActionBar(toolbar);
         mContactRN = new ContactRN(this, this);
 
-        if (mContact != null) {
+        mContact = mContactRN.getContact(mContactId);
+        if (mContactId != null) {
             addContactInfoOnFields(mContact);
         }
     }
@@ -174,7 +176,7 @@ public class EditContactActivity extends BaseActivity {
                     //if its edition, returns the new contact
                     if (mContact != null) {
                         Intent intent = new Intent();
-                        intent.putExtra(Param.Intent.CONTACT, mContactRN.getContact(mContact.getId()));
+                        intent.putExtra(Param.Intent.CONTACT_ID, mContact.getId());
                         setResult(result ? RESULT_OK : RESULT_CANCELED, intent);
                         break;
                     }

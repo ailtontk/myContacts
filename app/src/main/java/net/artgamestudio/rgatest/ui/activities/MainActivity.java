@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
      */
     private void startContactInfoActivity(Contact contact) {
         Intent intent = new Intent(this, ContactInfoActivity.class);
-        intent.putExtra(Param.Intent.CONTACT, contact);
+        intent.putExtra(Param.Intent.CONTACT_ID, contact.getId());
         startActivityForResult(intent, REQUEST_CONTACT_INFO);
     }
 }

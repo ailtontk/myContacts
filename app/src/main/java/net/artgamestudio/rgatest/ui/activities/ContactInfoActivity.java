@@ -15,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions;
 import net.artgamestudio.rgatest.R;
 import net.artgamestudio.rgatest.base.BaseActivity;
 import net.artgamestudio.rgatest.data.pojo.Contact;
+import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.util.Param;
 
 import butterknife.BindView;
@@ -35,7 +36,9 @@ public class ContactInfoActivity extends BaseActivity {
     @BindView(R.id.tvBio) TextView tvBio;
 
     /***** VARIABLES *****/
+    private ContactRN mContactRN;
     private Contact mContact;
+    private Long mContactId;
 
     /***** CONSTANTS *****/
     private final int REQUEST_EDIT_CONTACT = 1;
@@ -47,12 +50,15 @@ public class ContactInfoActivity extends BaseActivity {
 
     @Override
     public void getParam() throws Exception {
-        mContact = getIntent().getParcelableExtra(Param.Intent.CONTACT);
+        mContactId = getIntent().getLongExtra(Param.Intent.CONTACT_ID, -1);
     }
 
     @Override
     public void setupData() throws Exception {
         setSupportActionBar(toolbar);
+
+        mContactRN = new ContactRN(this, this);
+        mContact = mContactRN.getContact(mContactId);
 
         //If has photo, put it on screen
         if (mContact.getPhoto() != null && mContact.getPhoto().length() > 0) {
@@ -116,7 +122,7 @@ public class ContactInfoActivity extends BaseActivity {
         try {
             //If its coming from edit contact screen, updates the contact object and updates screen
             if (requestCode == REQUEST_EDIT_CONTACT) {
-                mContact = data.getParcelableExtra(Param.Intent.CONTACT);
+                mContact = mContactRN.getContact(data.getLongExtra(Param.Intent.CONTACT_ID, -1));
                 addContactInfoOnFields(mContact);
             }
         } catch (Exception error) {
@@ -126,7 +132,7 @@ public class ContactInfoActivity extends BaseActivity {
 
     private void startEditContactActivity() {
         Intent intent = new Intent(this, EditContactActivity.class);
-        intent.putExtra(Param.Intent.CONTACT, mContact);
+        intent.putExtra(Param.Intent.CONTACT_ID, mContactId);
         startActivityForResult(intent, REQUEST_EDIT_CONTACT);
     }
 }

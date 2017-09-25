@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.Index;
+import org.greenrobot.greendao.annotation.Property;
 
 import java.io.Serializable;
 
@@ -14,10 +16,8 @@ import java.io.Serializable;
  *
  * POJO for get contact service
  */
-@Entity(nameInDb = "contact")
 public class Contact implements Parcelable {
 
-    @Id(autoincrement = true)
     private Long id;
     private String name;
     private String email;
@@ -25,21 +25,8 @@ public class Contact implements Parcelable {
     private String bio;
     private String photo;
 
-    @Generated(hash = 797175119)
-    public Contact(Long id, String name, String email, String born, String bio,
-            String photo) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.born = born;
-        this.bio = bio;
-        this.photo = photo;
-    }
-    @Generated(hash = 672515148)
-    public Contact() {
-    }
-
     protected Contact(Parcel in) {
+        id = in.readLong();
         name = in.readString();
         email = in.readString();
         born = in.readString();
@@ -47,8 +34,12 @@ public class Contact implements Parcelable {
         photo = in.readString();
     }
 
+    public Contact() {
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeString(name);
         dest.writeString(email);
         dest.writeString(born);
@@ -59,6 +50,54 @@ public class Contact implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getBorn() {
+        return this.born;
+    }
+
+    public void setBorn(String born) {
+        this.born = born;
+    }
+
+    public String getBio() {
+        return this.bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public static final Creator<Contact> CREATOR = new Creator<Contact>() {
@@ -72,41 +111,4 @@ public class Contact implements Parcelable {
             return new Contact[size];
         }
     };
-
-    public String getName() {
-        return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getEmail() {
-        return this.email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public String getBorn() {
-        return this.born;
-    }
-    public void setBorn(String born) {
-        this.born = born;
-    }
-    public String getBio() {
-        return this.bio;
-    }
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-    public String getPhoto() {
-        return this.photo;
-    }
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-    public Long getId() {
-        return this.id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
 }

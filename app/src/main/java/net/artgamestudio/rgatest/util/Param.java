@@ -15,10 +15,18 @@ public abstract class Param {
     }
 
     /**
-     * Used for Shared Preferences keys
+     * Used for database
      */
     public abstract class Database {
         public static final String NAME = "myContacts";
+        public static final int VERSION = 1;
+    }
+
+    /**
+     * Used for database tables
+     */
+    public abstract class Tables {
+        public static final String CONTACTS = "contacts";
     }
 
     /**
@@ -42,5 +50,6 @@ public abstract class Param {
      */
     public abstract class Intent {
         public static final String CONTACT = "CONTACT";
+        public static final String CONTACT_ID = "CCONTACT_ID";
     }
 }
