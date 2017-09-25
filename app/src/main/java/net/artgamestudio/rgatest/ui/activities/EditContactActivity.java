@@ -178,6 +178,7 @@ public class EditContactActivity extends BaseActivity {
                         Intent intent = new Intent();
                         intent.putExtra(Param.Intent.CONTACT_ID, mContact.getId());
                         setResult(result ? RESULT_OK : RESULT_CANCELED, intent);
+                        finish();
                         break;
                     }
 

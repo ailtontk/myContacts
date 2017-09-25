@@ -3,12 +3,6 @@ package net.artgamestudio.rgatest.data.pojo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Index;
-import org.greenrobot.greendao.annotation.Property;
-
 import java.io.Serializable;
 
 /**
@@ -16,7 +10,7 @@ import java.io.Serializable;
  *
  * POJO for get contact service
  */
-public class Contact implements Parcelable {
+public class Contact implements Serializable {
 
     private Long id;
     private String name;
@@ -25,31 +19,7 @@ public class Contact implements Parcelable {
     private String bio;
     private String photo;
 
-    protected Contact(Parcel in) {
-        id = in.readLong();
-        name = in.readString();
-        email = in.readString();
-        born = in.readString();
-        bio = in.readString();
-        photo = in.readString();
-    }
-
     public Contact() {
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(email);
-        dest.writeString(born);
-        dest.writeString(bio);
-        dest.writeString(photo);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public Long getId() {
@@ -99,16 +69,4 @@ public class Contact implements Parcelable {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-
-    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
-        @Override
-        public Contact createFromParcel(Parcel in) {
-            return new Contact(in);
-        }
-
-        @Override
-        public Contact[] newArray(int size) {
-            return new Contact[size];
-        }
-    };
 }

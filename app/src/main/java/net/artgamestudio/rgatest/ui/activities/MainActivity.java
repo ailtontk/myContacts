@@ -44,6 +44,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
     /***** CONSTANTS *****/
     private final int REQUEST_CONTACT_INFO = 1;
+    private final int REQUEST_CONTACT_INSETION = 2;
 
     @Override
     public int setView() throws Exception {
@@ -186,6 +187,23 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (requestCode == REQUEST_CONTACT_INFO) {
+                if (mAdapter != null) {
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            if (requestCode == REQUEST_CONTACT_INSETION) {
+                fillContactList();
+            }
+        } catch (Exception error) {
+            Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());
+        }
+    }
+
     /**
      * Starts the contact info activity
      */
@@ -193,5 +211,13 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         Intent intent = new Intent(this, ContactInfoActivity.class);
         intent.putExtra(Param.Intent.CONTACT_ID, contact.getId());
         startActivityForResult(intent, REQUEST_CONTACT_INFO);
+    }
+
+    /**
+     * Starts the edit contact activity
+     */
+    private void startEditContactActivity() {
+        Intent intent = new Intent(this, EditContactActivity.class);
+        startActivityForResult(intent, REQUEST_CONTACT_INSETION);
     }
 }

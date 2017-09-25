@@ -25,6 +25,8 @@ public class ContactRN extends BaseRN {
 
     public ContactRN(Context context, IComponentContact contact) {
         super(context, contact);
+
+        mContactDAO = new ContactDAO(context);
     }
 
     /**
