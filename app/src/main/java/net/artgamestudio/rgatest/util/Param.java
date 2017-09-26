@@ -36,6 +36,7 @@ public abstract class Param {
         public static final int CONTACTS_SERVICE_RESPONSE = 1;
         public static final int CONTACTS_IMPORTED = 2;
         public static final int CONTACTS_LIST_ITEM_CLICKED = 3;
+        public static final int CONTACTS_LIST_ITEM_LONG_CLICKED = 4;
     }
 
     /**
@@ -51,5 +52,6 @@ public abstract class Param {
     public abstract class Intent {
         public static final String CONTACT = "CONTACT";
         public static final String CONTACT_ID = "CCONTACT_ID";
+        public static final String CONTACT_POSITION = "CONTACT_POSITION";
     }
 }

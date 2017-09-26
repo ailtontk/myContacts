@@ -22,6 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 /**
  * Created by Ailton on 22/09/2017 for artGS.<br>
@@ -65,9 +66,8 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             holder.tvName.setText(contact.getName());
 
             //If has photo, put it on screen
-            holder.ivPhoto.setScaleX(0);
-            holder.ivPhoto.setScaleY(0);
-            UtilView.animateView(mContext, holder.ivPhoto, 150);
+            holder.ivPhoto.setAlpha(0f);
+            UtilView.animateView(mContext, holder.ivPhoto, 150, R.animator.anim_fadding_up);
             if (contact.getPhoto() != null && !contact.getPhoto().isEmpty()) {
                 //put image on screen
                 Glide.with(mContext)
@@ -82,6 +82,7 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             //Saves the current position
             holder.container.setTag(R.string.tag_position, position);
             holder.container.setTag(R.string.tag_photo, holder.ivPhoto);
+            holder.container.setTag(R.string.tag_container, holder.container);
         } catch (Exception error) {
             Log.e("error", "Error at onBindViewHolder in " + getClass().getName() + ". Error: " + error.getMessage());
         }
@@ -128,6 +129,18 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             object[1] = view.getTag(R.string.tag_photo);
 
             mContact.contactComponent(ContactsAdapter.class, Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED, true, object);
+        }
+
+        @OnLongClick(R.id.container)
+        public boolean onLongClick(View view) {
+            //Informs who created the adapter that container were pressed
+            Object[] object = new Object[3];
+            object[0] = view.getTag(R.string.tag_position);
+            object[1] = view.getTag(R.string.tag_photo);
+            object[2] = view.getTag(R.string.tag_container);
+
+            mContact.contactComponent(ContactsAdapter.class, Param.ComponentCompact.CONTACTS_LIST_ITEM_LONG_CLICKED, true, object);
+            return true;
         }
     }
 }

@@ -6,5 +6,6 @@
     <!--***************** TAG *****************-->
     <string name="tag_position">tag_position</string>
     <string name="tag_photo">tag_photo</string>
+    <string name="tag_container">tag_container</string>
 
 </resources>

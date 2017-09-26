@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -75,6 +76,17 @@ public class UtilView {
         animator.setTarget(view);
         animator.setStartDelay(startDelay);
         animator.start();
+    }
+
+    /**
+     * Changes the selected status of a view and its background
+     * @param context The app context
+     * @param view The view to change
+     * @param selected True if is selected false otherwise
+     */
+    public static void setSelected(Context context, View view, boolean selected) throws Exception {
+        view.setSelected(selected);
+        view.setBackgroundColor(selected ? ContextCompat.getColor(context, R.color.colorSelected) : ContextCompat.getColor(context, R.color.colorUnselected));
     }
 
     /**

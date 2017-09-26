@@ -1,6 +1,7 @@
 package net.artgamestudio.rgatest.ui.activities;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -20,6 +21,7 @@ import net.artgamestudio.rgatest.base.BaseActivity;
 import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.util.Param;
+import net.artgamestudio.rgatest.util.UtilView;
 
 import butterknife.BindView;
 
@@ -42,9 +44,11 @@ public class ContactInfoActivity extends BaseActivity {
     private ContactRN mContactRN;
     private Contact mContact;
     private int mContactId;
+    private int mContactPosition;
 
     /***** CONSTANTS *****/
     private final int REQUEST_EDIT_CONTACT = 1;
+    private final int UPDATE_ALL_LIST = -1;
 
     @Override
     public int setView() throws Exception {
@@ -54,6 +58,7 @@ public class ContactInfoActivity extends BaseActivity {
     @Override
     public void getParam() throws Exception {
         mContactId = getIntent().getIntExtra(Param.Intent.CONTACT_ID, -1);
+        mContactPosition = getIntent().getIntExtra(Param.Intent.CONTACT_POSITION, -1);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -109,12 +114,34 @@ public class ContactInfoActivity extends BaseActivity {
             switch (item.getItemId()) {
                 // If touched at back button
                 case android.R.id.home:
-                    supportFinishAfterTransition();
+                    finishPassingPosition(mContactPosition);
                     break;
 
                 // If touched at edit button
                 case R.id.mnuEdit:
                     startEditContactActivity();
+                    break;
+
+                // If touched at remove button
+                case R.id.mnuRemove:
+                    UtilView.createAlertDialog(
+                            this,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        mContactRN.removeContact(mContact);
+                                        finishPassingPosition(UPDATE_ALL_LIST);
+                                    } catch (Exception error) {
+                                        Log.e("Error", "Error at onClick in " + getClass().getName() + ". " + error.getMessage());
+                                    }
+                                }
+                            },
+                            null,
+                            getString(R.string.attention),
+                            getString(R.string.remove_desc).replace("{name}", mContact.getName()),
+                            getString(R.string.yes),
+                            getString(R.string.no));
                     break;
             }
         } catch (Exception error) {
@@ -137,6 +164,14 @@ public class ContactInfoActivity extends BaseActivity {
         } catch (Exception error) {
             Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());
         }
+    }
+
+    private void finishPassingPosition(int position) {
+        Intent intent = new Intent();
+        intent.putExtra(Param.Intent.CONTACT_POSITION, position);
+
+        setResult(RESULT_OK, intent);
+        supportFinishAfterTransition();
     }
 
     private void startEditContactActivity() {

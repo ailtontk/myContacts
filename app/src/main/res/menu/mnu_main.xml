@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/mnuRemove"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="always"
+        android:title="@string/toolbar_mnu_remove"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/mnuSearch"
         android:icon="@drawable/ic_search"
         app:showAsAction="always"

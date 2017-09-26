@@ -13,7 +13,11 @@
     <!-- App colors -->
     <color name="colorDiv">@color/colorGrey4</color>
 
-    <!-- Colors -->
+    <!-- Selected Colors -->
+    <color name="colorSelected">#7e0987bf</color>
+    <color name="colorUnselected">@android:color/transparent</color>
+
+    <!-- Other Colors -->
     <color name="colorGrey1">#F5F5F5</color>
     <color name="colorGrey2">#EEEEEE</color>
     <color name="colorGrey3">#E0E0E0</color>

@@ -5,6 +5,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="ok">OK</string>
+    <string name="attention">Attention</string>
     <string name="close">Close</string>
     <string name="processing">Processing…</string>
     <string name="please_wait">Please wait…</string>
@@ -12,6 +13,7 @@
 
     <!--***************** TOOLBAR *****************-->
     <string name="toolbar_mnu_search">Search</string>
+    <string name="toolbar_mnu_remove">Remove</string>
     <string name="toolbar_mnu_edit">Edit</string>
     <string name="toolbar_mnu_done">Done</string>
 
@@ -22,6 +24,9 @@
     <!--***************** MAIN SCREEN *****************-->
     <string name="main_search_text">Type a contact name…</string>
     <string name="main_no_results">We do not found any contacts ;(</string>
+
+    <!--***************** REMOVE POPUP *****************-->
+    <string name="remove_desc">Do you really want to remove {name} from your list?</string>
 
     <!--***************** EDIT OR CREATE CONTACT SCREEN *****************-->
     <string name="edit_title_create">Create a contact</string>
