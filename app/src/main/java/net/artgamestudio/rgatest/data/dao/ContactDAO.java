@@ -40,7 +40,7 @@ public class ContactDAO extends DAOBase<Contact> {
             Contact contact;
             while (cursor.moveToNext()) {
                 contact = new Contact();
-                contact.setId(cursor.getLong(cursor.getColumnIndex("id")));
+                contact.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 contact.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
                 contact.setName(cursor.getString(cursor.getColumnIndex("name")));
                 contact.setEmail(cursor.getString(cursor.getColumnIndex("email")));
@@ -60,7 +60,7 @@ public class ContactDAO extends DAOBase<Contact> {
     }
 
     @Override
-    public Contact get(Long id) throws Exception {
+    public Contact get(int id) throws Exception {
         mDb = DBConnection.getConnection(mHelper);
         Cursor cursor = null;
         Contact contact = null;
@@ -70,7 +70,7 @@ public class ContactDAO extends DAOBase<Contact> {
             cursor = mDb.query(Param.Tables.CONTACTS, null, "id=?", new String[]{String.valueOf(id)}, null, null, null);
             if (cursor.moveToNext()) {
                 contact = new Contact();
-                contact.setId(cursor.getLong(cursor.getColumnIndex("id")));
+                contact.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 contact.setPhoto(cursor.getString(cursor.getColumnIndex("photo")));
                 contact.setName(cursor.getString(cursor.getColumnIndex("name")));
                 contact.setEmail(cursor.getString(cursor.getColumnIndex("email")));
@@ -112,7 +112,7 @@ public class ContactDAO extends DAOBase<Contact> {
     }
 
     @Override
-    public void remove(Long id) throws Exception {
+    public void remove(int id) throws Exception {
         mDb = DBConnection.getConnection(mHelper);
 
         try {

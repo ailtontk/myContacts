@@ -105,6 +105,17 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         showContactList(contacts != null && contacts.size() > 0);
     }
 
+    /**
+     * Get the new contact list and updates UI
+     */
+    private void updateList() throws Exception {
+        if (mAdapter == null)
+            return;
+
+        mAdapter.setContacts(mContactRN.getContacts());
+        mAdapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onReceiveData(Class fromClass, int id, boolean result, Object... objects) throws Exception {
         //If comes from adapter
@@ -191,13 +202,13 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             if (requestCode == REQUEST_CONTACT_INFO) {
-                if (mAdapter != null) {
-                    mAdapter.notifyDataSetChanged();
-                }
+                updateList();
+                return;
             }
 
             if (requestCode == REQUEST_CONTACT_INSETION) {
                 fillContactList();
+                return;
             }
         } catch (Exception error) {
             Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());

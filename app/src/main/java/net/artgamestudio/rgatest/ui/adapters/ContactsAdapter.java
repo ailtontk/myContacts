@@ -80,6 +80,10 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         return mContacts.size();
     }
 
+    public void setContacts(List<Contact> contacts) {
+        mContacts = contacts;
+    }
+
     public List<Contact> getContacts() {
         return mContacts;
     }

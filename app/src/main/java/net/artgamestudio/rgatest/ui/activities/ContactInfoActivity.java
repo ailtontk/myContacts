@@ -38,7 +38,7 @@ public class ContactInfoActivity extends BaseActivity {
     /***** VARIABLES *****/
     private ContactRN mContactRN;
     private Contact mContact;
-    private Long mContactId;
+    private int mContactId;
 
     /***** CONSTANTS *****/
     private final int REQUEST_EDIT_CONTACT = 1;
@@ -50,7 +50,7 @@ public class ContactInfoActivity extends BaseActivity {
 
     @Override
     public void getParam() throws Exception {
-        mContactId = getIntent().getLongExtra(Param.Intent.CONTACT_ID, -1);
+        mContactId = getIntent().getIntExtra(Param.Intent.CONTACT_ID, -1);
     }
 
     @Override
@@ -122,7 +122,7 @@ public class ContactInfoActivity extends BaseActivity {
         try {
             //If its coming from edit contact screen, updates the contact object and updates screen
             if (requestCode == REQUEST_EDIT_CONTACT) {
-                mContact = mContactRN.getContact(data.getLongExtra(Param.Intent.CONTACT_ID, -1));
+                mContact = mContactRN.getContact(data.getIntExtra(Param.Intent.CONTACT_ID, -1));
                 addContactInfoOnFields(mContact);
             }
         } catch (Exception error) {

@@ -117,6 +117,7 @@ public class ContactRN extends BaseRN {
             }
 
             //otherwise, updates the current contact
+            newContact.setId(currentContact.getId());
             newContact.setPhoto(currentContact.getPhoto());
             updateContact(newContact);
         } catch (Exception error) {
@@ -157,7 +158,7 @@ public class ContactRN extends BaseRN {
      * @param id The contact id
      * @return A filled contact object
      */
-    public Contact getContact(Long id) throws Exception {
+    public Contact getContact(int id) throws Exception {
         return mContactDAO.get(id);
     }
 }

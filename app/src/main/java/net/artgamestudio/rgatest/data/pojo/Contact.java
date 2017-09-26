@@ -1,8 +1,5 @@
 package net.artgamestudio.rgatest.data.pojo;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.io.Serializable;
 
 /**
@@ -12,7 +9,7 @@ import java.io.Serializable;
  */
 public class Contact implements Serializable {
 
-    private Long id;
+    private int id;
     private String name;
     private String email;
     private String born;
@@ -22,11 +19,11 @@ public class Contact implements Serializable {
     public Contact() {
     }
 
-    public Long getId() {
-        return this.id;
+    public int getId() {
+        return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

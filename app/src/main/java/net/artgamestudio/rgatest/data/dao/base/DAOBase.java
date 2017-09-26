@@ -31,11 +31,11 @@ public abstract class DAOBase<E> {
      * @param id O id do objeto
      * @return O objeto encontrado ou null se não houver
      */
-    public abstract E get(Long id) throws Exception;
+    public abstract E get(int id) throws Exception;
 
     public abstract void update(E obj) throws Exception;
 
     public abstract void insert(E obj) throws Exception;
 
-    public abstract void remove(Long id) throws Exception;
+    public abstract void remove(int id) throws Exception;
 }

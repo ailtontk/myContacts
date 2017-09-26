@@ -39,7 +39,7 @@ public class EditContactActivity extends BaseActivity {
     /***** VARIABLES *****/
     private ContactRN mContactRN;
     private Contact mContact;
-    private Long mContactId;
+    private int mContactId;
 
     @Override
     public int setView() throws Exception {
@@ -48,7 +48,7 @@ public class EditContactActivity extends BaseActivity {
 
     @Override
     public void getParam() throws Exception {
-        mContactId = getIntent().getLongExtra(Param.Intent.CONTACT_ID, -1);
+        mContactId = getIntent().getIntExtra(Param.Intent.CONTACT_ID, -1);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class EditContactActivity extends BaseActivity {
         mContactRN = new ContactRN(this, this);
 
         mContact = mContactRN.getContact(mContactId);
-        if (mContactId != null) {
+        if (mContactId != -1) {
             addContactInfoOnFields(mContact);
         }
     }
