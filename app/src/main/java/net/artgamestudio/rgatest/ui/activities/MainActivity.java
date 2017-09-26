@@ -1,6 +1,9 @@
 package net.artgamestudio.rgatest.ui.activities;
 
 import android.content.Intent;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,10 +24,12 @@ import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.ui.adapters.ContactsAdapter;
 import net.artgamestudio.rgatest.util.Param;
 import net.artgamestudio.rgatest.util.Util;
+import net.artgamestudio.rgatest.util.UtilView;
 
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements MaterialSearchView.OnQueryTextListener, MaterialSearchView.SearchViewListener {
 
@@ -36,6 +41,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     @BindView(R.id.cvListContainer) View cvListContainer;
     @BindView(R.id.tvNoRegister) TextView tvNoRegister;
     @BindView(R.id.rvContacts) RecyclerView rvContacts;
+    @BindView(R.id.fbAdd) FloatingActionButton fbAdd;
 
     /***** VARIABLES *****/
     private ContactRN mContactRN;
@@ -60,6 +66,9 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
         //Changes the logo to the default font (bold)
         Util.changeFont(this, tvMainLogo);
+
+        //Animates floating button
+        UtilView.animateView(this, fbAdd, 1000);
 
         //fill the list
         fillContactList();
@@ -90,19 +99,23 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     /**
      * Fills the contact list on screen
      */
-    private void fillContactList(String...name) throws Exception {
-        //Get all contacts
-        showLoading();
-        List<Contact> contacts = mContactRN.getContacts(name);
+    private void fillContactList(String...name) {
+        try {
+            //Get all contacts
+            showLoading();
+            List<Contact> contacts = mContactRN.getContacts(name);
 
-        //create the adapter
-        mAdapter = new ContactsAdapter(this, this, contacts);
-        rvContacts.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false));
-        rvContacts.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
+            //create the adapter
+            mAdapter = new ContactsAdapter(this, this, contacts);
+            rvContacts.setLayoutManager(new GridLayoutManager(this, 3, LinearLayoutManager.VERTICAL, false));
+            rvContacts.setAdapter(mAdapter);
+            mAdapter.notifyDataSetChanged();
 
-        //Show the contact list again
-        showContactList(contacts != null && contacts.size() > 0);
+            //Show the contact list again
+            showContactList(contacts != null && contacts.size() > 0);
+        } catch (Exception error) {
+            Log.e("Error", "Error at fillContactList in " + getClass().getName() + ". " + error.getMessage());
+        }
     }
 
     /**
@@ -116,6 +129,11 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         mAdapter.notifyDataSetChanged();
     }
 
+    @OnClick(R.id.fbAdd)
+    public void onClick(View view) {
+        startEditContactActivity();
+    }
+
     @Override
     protected void onReceiveData(Class fromClass, int id, boolean result, Object... objects) throws Exception {
         //If comes from adapter
@@ -123,92 +141,64 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
             //If user clicked on container
             if (id == Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED) {
                 //The contact position its on object vararg.
-                startContactInfoActivity(mAdapter.getContact((int) objects[0]));
+                startContactInfoActivity(mAdapter.getContact((int) objects[0]), (View) objects[1]);
             }
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //inflates the options menu and set search view component
+        getMenuInflater().inflate(R.menu.mnu_main, menu);
 
-        try {
-            //inflates the options menu and set search view component
-            getMenuInflater().inflate(R.menu.mnu_main, menu);
-
-            MenuItem menuItem = menu.findItem(R.id.mnuSearch);
-            searchView.setMenuItem(menuItem);
-            searchView.setOnQueryTextListener(this);
-            searchView.setOnSearchViewListener(this);
-        } catch (Exception error) {
-            Log.e("Error", "Error at onCreateOptionsMenu in " + getClass().getName() + ". " + error.getMessage());
-        }
-
+        MenuItem menuItem = menu.findItem(R.id.mnuSearch);
+        searchView.setMenuItem(menuItem);
+        searchView.setOnQueryTextListener(this);
+        searchView.setOnSearchViewListener(this);
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        try {
-            //If hasn't text, do nothing
-            if (query.length() == 0)
-                return false;
+        //If hasn't text, do nothing
+        if (query.length() == 0)
+            return false;
 
-            mSearchPressed = true;
-        } catch (Exception error) {
-            Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
-        }
+        mSearchPressed = true;
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        try {
-            //If hasn't text, do nothing
-            if (newText.length() == 0 || mSearchPressed) {
-                if (newText.length() > 0)
-                    mSearchPressed = false;
-                return false;
-            }
-
-            fillContactList(newText);
-        } catch (Exception error) {
-            Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
+        //If hasn't text, do nothing
+        if (newText.length() == 0 || mSearchPressed) {
+            if (newText.length() > 0)
+                mSearchPressed = false;
+            return false;
         }
+
+        fillContactList(newText);
         return false;
     }
 
     @Override
     public void onSearchViewShown() {
-        try {
-            fillContactList();
-        } catch (Exception error) {
-            Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
-        }
+        fillContactList();
     }
 
     @Override
     public void onSearchViewClosed() {
-        try {
-            if (!mSearchPressed || mAdapter.getItemCount() == 0)
-                fillContactList();
+        if (!mSearchPressed || mAdapter.getItemCount() == 0)
+            fillContactList();
 
-            mSearchPressed = false;
-        } catch (Exception error) {
-            Log.e("Error", "Error at onQueryTextSubmit in " + getClass().getName() + ". " + error.getMessage());
-        }
+        mSearchPressed = false;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
-            if (requestCode == REQUEST_CONTACT_INFO) {
+            if (requestCode == REQUEST_CONTACT_INFO || requestCode == REQUEST_CONTACT_INSETION) {
                 updateList();
-                return;
-            }
-
-            if (requestCode == REQUEST_CONTACT_INSETION) {
-                fillContactList();
-                return;
             }
         } catch (Exception error) {
             Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());
@@ -218,9 +208,17 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     /**
      * Starts the contact info activity
      */
-    private void startContactInfoActivity(Contact contact) {
+    private void startContactInfoActivity(Contact contact, View view) {
         Intent intent = new Intent(this, ContactInfoActivity.class);
         intent.putExtra(Param.Intent.CONTACT_ID, contact.getId());
+
+        //Adds transition effect if its lollipop or above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, getString(R.string.transition_photo));
+            startActivityForResult(intent, REQUEST_CONTACT_INFO, options.toBundle());
+            return;
+        }
+
         startActivityForResult(intent, REQUEST_CONTACT_INFO);
     }
 

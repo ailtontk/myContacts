@@ -39,7 +39,7 @@
                 android:layout_height="@dimen/edit_image_height"
                 android:adjustViewBounds="true"
                 android:scaleType="center"
-                android:src="@drawable/ic_no_picture"/>
+                android:src="@drawable/ic_no_picture_big"/>
 
             <!-- Info Card -->
             <android.support.v7.widget.CardView

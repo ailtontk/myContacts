@@ -63,13 +63,21 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             //Put name on screen
             holder.tvName.setText(contact.getName());
 
-            //put image on screen
-            Glide.with(mContext)
-                    .load(contact.getPhoto())
-                    .into(holder.ivPhoto);
+            //If has photo, put it on screen
+            if (contact.getPhoto() != null && !contact.getPhoto().isEmpty()) {
+                //put image on screen
+                Glide.with(mContext)
+                        .load(contact.getPhoto())
+                        .into(holder.ivPhoto);
+            }
+            //Otherwise put no picture image
+            else {
+                holder.ivPhoto.setBackgroundResource(R.drawable.ic_no_picture);
+            }
 
             //Saves the current position
-            holder.container.setTag(position);
+            holder.container.setTag(R.string.tag_position, position);
+            holder.container.setTag(R.string.tag_photo, holder.ivPhoto);
         } catch (Exception error) {
             Log.e("error", "Error at onBindViewHolder in " + getClass().getName() + ". Error: " + error.getMessage());
         }
@@ -111,7 +119,11 @@ public class ContactsAdapter extends RecyclerView.Adapter {
         @OnClick(R.id.container)
         public void onClick(View view) {
             //Informs who created the adapter that container were pressed
-            mContact.contactComponent(ContactsAdapter.class, Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED, true, view.getTag());
+            Object[] object = new Object[2];
+            object[0] = view.getTag(R.string.tag_position);
+            object[1] = view.getTag(R.string.tag_photo);
+
+            mContact.contactComponent(ContactsAdapter.class, Param.ComponentCompact.CONTACTS_LIST_ITEM_CLICKED, true, object);
         }
     }
 }

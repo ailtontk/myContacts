@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--***************** TRANSITION *****************-->
+    <string name="transition_photo">transition_photo</string>
+
+    <!--***************** TAG *****************-->
+    <string name="tag_position">tag_position</string>
+    <string name="tag_photo">tag_photo</string>
+
+</resources>

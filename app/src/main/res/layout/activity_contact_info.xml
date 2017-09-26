@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="center"
-                android:src="@drawable/ic_no_picutre_big"/>
+                android:src="@drawable/ic_no_picture_big"/>
 
             <!-- Toolbar that will be showed when container decrease -->
             <android.support.v7.widget.Toolbar
