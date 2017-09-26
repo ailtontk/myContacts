@@ -15,6 +15,7 @@ import net.artgamestudio.rgatest.R;
 import net.artgamestudio.rgatest.base.interfaces.IComponentContact;
 import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.util.Param;
+import net.artgamestudio.rgatest.util.UtilView;
 
 import java.util.List;
 
@@ -64,6 +65,9 @@ public class ContactsAdapter extends RecyclerView.Adapter {
             holder.tvName.setText(contact.getName());
 
             //If has photo, put it on screen
+            holder.ivPhoto.setScaleX(0);
+            holder.ivPhoto.setScaleY(0);
+            UtilView.animateView(mContext, holder.ivPhoto, 150);
             if (contact.getPhoto() != null && !contact.getPhoto().isEmpty()) {
                 //put image on screen
                 Glide.with(mContext)
