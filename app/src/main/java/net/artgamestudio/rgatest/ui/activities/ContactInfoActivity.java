@@ -8,6 +8,7 @@ import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -78,6 +79,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
 
         //If image has white background, change the icons to black while expanded
         if (mIsBackgroundWhite) {
+            colToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.colorGrey7));
             appBar.addOnOffsetChangedListener(this);
         }
     }
@@ -98,6 +100,11 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
                     .load(mContact.getPhoto())
                     .apply(requestOptions)
                     .into(ivPhoto);
+
+            //changes the status color
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorGrey9));
+            }
         }
 
         addContactInfoOnFields(mContact);
