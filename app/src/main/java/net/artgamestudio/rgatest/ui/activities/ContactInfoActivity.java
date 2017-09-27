@@ -3,7 +3,9 @@ package net.artgamestudio.rgatest.ui.activities;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.Toolbar;
@@ -30,9 +32,10 @@ import butterknife.BindView;
  *
  * Activity for see contacts details
  */
-public class ContactInfoActivity extends BaseActivity {
+public class ContactInfoActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener {
 
     /***** VIEWS *****/
+    @BindView(R.id.appBar) AppBarLayout appBar;
     @BindView(R.id.colToolbar) CollapsingToolbarLayout colToolbar;
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.ivPhoto) ImageView ivPhoto;
@@ -45,6 +48,7 @@ public class ContactInfoActivity extends BaseActivity {
     private Contact mContact;
     private int mContactId;
     private int mContactPosition;
+    private boolean mIsBackgroundWhite;
 
     /***** CONSTANTS *****/
     private final int REQUEST_EDIT_CONTACT = 1;
@@ -59,6 +63,7 @@ public class ContactInfoActivity extends BaseActivity {
     public void getParam() throws Exception {
         mContactId = getIntent().getIntExtra(Param.Intent.CONTACT_ID, -1);
         mContactPosition = getIntent().getIntExtra(Param.Intent.CONTACT_POSITION, -1);
+        mIsBackgroundWhite = getIntent().getBooleanExtra(Param.Intent.IS_WHITE, false);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -68,9 +73,17 @@ public class ContactInfoActivity extends BaseActivity {
     }
 
     @Override
-    public void setupData() throws Exception {
+    public void setupToolbar() throws Exception {
         setSupportActionBar(toolbar);
 
+        //If image has white background, change the icons to black while expanded
+        if (mIsBackgroundWhite) {
+            appBar.addOnOffsetChangedListener(this);
+        }
+    }
+
+    @Override
+    public void setupData() throws Exception {
         mContactRN = new ContactRN(this, this);
         mContact = mContactRN.getContact(mContactId);
 
@@ -103,6 +116,11 @@ public class ContactInfoActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mnu_contact_info, menu);
+
+        if (mIsBackgroundWhite) {
+            menu.findItem(R.id.mnuRemove).setIcon(R.drawable.ic_delete_dark);
+            menu.findItem(R.id.mnuEdit).setIcon(R.drawable.ic_edit_dark);
+        }
         return true;
     }
 
@@ -164,6 +182,32 @@ public class ContactInfoActivity extends BaseActivity {
         } catch (Exception error) {
             Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());
         }
+    }
+
+    @Override
+    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        if (verticalOffset < -50 && verticalOffset > -390)
+            return;
+
+        MenuItem mnuRemove = toolbar.getMenu().findItem(R.id.mnuRemove);
+        MenuItem mnuEdit = toolbar.getMenu().findItem(R.id.mnuEdit);
+
+        if (mnuEdit == null || mnuRemove == null) {
+            return;
+        }
+
+        //Its Collapsed
+        if (verticalOffset > -300) {
+            toolbar.setNavigationIcon(R.drawable.ic_back_arrow_dark);
+            mnuRemove.setIcon(R.drawable.ic_delete_dark);
+            mnuEdit.setIcon(R.drawable.ic_edit_dark);
+            return;
+        }
+
+        //Is expanded
+        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+        mnuRemove.setIcon(R.drawable.ic_delete);
+        mnuEdit.setIcon(R.drawable.ic_edit);
     }
 
     private void finishPassingPosition(int position) {

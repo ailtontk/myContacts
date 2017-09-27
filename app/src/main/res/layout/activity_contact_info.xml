@@ -10,7 +10,7 @@
 
     <!-- EXPANDED CONTAINER -->
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/MyAppbar"
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/contact_info_container_height"
         android:fitsSystemWindows="true">

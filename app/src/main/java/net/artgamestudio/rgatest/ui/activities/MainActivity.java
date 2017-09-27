@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -66,13 +67,9 @@ public class MainActivity extends BaseActivity implements ActionMode.Callback {
     }
 
     @Override
-    public void setupToolbar() throws Exception {
-        //Sets toolbar
-        setSupportActionBar(toolbar);
-    }
-
-    @Override
     public void setupData() throws Exception {
+        setSupportActionBar(toolbar);
+
         mContactRN = new ContactRN(this, this);
 
         //Changes the logo to the default font (bold) and Animates floating button
@@ -321,6 +318,7 @@ public class MainActivity extends BaseActivity implements ActionMode.Callback {
         Intent intent = new Intent(this, ContactInfoActivity.class);
         intent.putExtra(Param.Intent.CONTACT_ID, mAdapter.getContact(position).getId());
         intent.putExtra(Param.Intent.CONTACT_POSITION, position);
+        intent.putExtra(Param.Intent.IS_WHITE, UtilView.checkWhiteBackGroundInFrontOfIcons((ImageView)view));
 
         //Adds transition effect if its lollipop or above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

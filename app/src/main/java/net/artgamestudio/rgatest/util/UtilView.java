@@ -6,7 +6,10 @@ import android.animation.AnimatorSet;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.artgamestudio.rgatest.R;
@@ -202,5 +206,25 @@ public class UtilView {
                 .setPositiveButton(buttonPositive, listenerPositive)
                 .setNegativeButton(buttonNegative, listenerNegative)
                 .show();
+    }
+
+    public static boolean checkWhiteBackGroundInFrontOfIcons(ImageView imageView) {
+        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        int height = 2;
+        int pixelCount = 0;
+
+        int[] imagePixels = new int[bitmap.getWidth() * height];
+        bitmap.getPixels(imagePixels, 0, bitmap.getWidth(), 0, 5, bitmap.getWidth(), height);
+
+        for (int pixel : imagePixels) {
+            //Check only on beggin and end of image
+            if (pixel >= -1) {
+                //Count all white pixel
+                pixelCount++;
+            }
+        }
+
+        //If has more than 100 white pixels, its a white image
+        return pixelCount > 50;
     }
 }

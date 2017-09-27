@@ -57,5 +57,6 @@ public abstract class Param {
         public static final String CONTACT = "CONTACT";
         public static final String CONTACT_ID = "CCONTACT_ID";
         public static final String CONTACT_POSITION = "CONTACT_POSITION";
+        public static final String IS_WHITE = "IS_WHITE";
     }
 }
