@@ -37,6 +37,10 @@ public abstract class Param {
         public static final int CONTACTS_IMPORTED = 2;
         public static final int CONTACTS_LIST_ITEM_CLICKED = 3;
         public static final int CONTACTS_LIST_ITEM_LONG_CLICKED = 4;
+
+        public static final int SEARCH_TEXT = 11;
+        public static final int SEARCH_SHOWN = 12;
+        public static final int SEARCH_CLOSED = 13;
     }
 
     /**

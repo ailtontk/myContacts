@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +26,7 @@ import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.ui.adapters.ContactsAdapter;
 import net.artgamestudio.rgatest.util.Param;
+import net.artgamestudio.rgatest.util.SearchViewHelper;
 import net.artgamestudio.rgatest.util.Util;
 import net.artgamestudio.rgatest.util.UtilView;
 
@@ -32,7 +35,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements MaterialSearchView.OnQueryTextListener, MaterialSearchView.SearchViewListener {
+public class MainActivity extends BaseActivity implements ActionMode.Callback {
 
     /***** VIEWS *****/
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -47,7 +50,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     /***** VARIABLES *****/
     private ContactRN mContactRN;
     private ContactsAdapter mAdapter;
-    private boolean mSearchPressed;
+    private SearchViewHelper mSearchHelper;
     private int mSelectedPosition;
     private View mSelectedView;
 
@@ -64,7 +67,6 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     @Override
     public void setupToolbar() throws Exception {
         //Sets toolbar
-        toolbar.setNavigationIcon(R.mipmap.ic_transparent);
         setSupportActionBar(toolbar);
     }
 
@@ -143,7 +145,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     /**
      * Get the new contact list and updates UI
      */
-    private void updateListNewList() throws Exception {
+    private void updateListToBringNewContacts() throws Exception {
         if (mAdapter == null)
             return;
 
@@ -157,20 +159,15 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
      * @param remove True if its to show remove icon, false otherwise
      */
     private void changeToolbarMenu(boolean remove) {
-        toolbar.getMenu().findItem(R.id.mnuRemove).setVisible(remove);
-        toolbar.getMenu().findItem(R.id.mnuSearch).setVisible(!remove);
+        UtilView.setSelected(this, mSelectedView, remove);
 
-        toolbar.setNavigationIcon(remove ? R.drawable.ic_back_arrow : R.mipmap.ic_transparent);
-    }
+        //If its to remove an item, starts action mode
+        if (remove) {
+            startSupportActionMode(this);
+            return;
+        }
 
-    /**
-     * Used to remove selection from view and toolbar
-     * @throws Exception
-     */
-    private void unSelectView() throws Exception {
-        //Otherwise, go back to the normal
-        changeToolbarMenu(false);
-        UtilView.setSelected(this, mSelectedView, false);
+        //Other wise, turn the selected view to the default value
         mSelectedView = null;
         mSelectedPosition = -1;
     }
@@ -193,10 +190,31 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
             //If user clicked on container
             if (id == Param.ComponentCompact.CONTACTS_LIST_ITEM_LONG_CLICKED) {
-                changeToolbarMenu(true);
                 mSelectedPosition = (int) objects[0];
                 mSelectedView = (View) objects[2];
-                UtilView.setSelected(this, mSelectedView, true);
+                changeToolbarMenu(true);
+            }
+        }
+
+        //If comes from SearchViewHelper
+        if (fromClass == SearchViewHelper.class) {
+            //If text changes
+            if (id == Param.ComponentCompact.SEARCH_TEXT) {
+                fillContactList((String) objects[0]);
+                return;
+            }
+
+            //If its shown
+            if (id == Param.ComponentCompact.SEARCH_SHOWN) {
+                fillContactList();
+                return;
+            }
+
+            //If its closed
+            if (id == Param.ComponentCompact.SEARCH_CLOSED) {
+                if (mAdapter.getItemCount() == 0)
+                    fillContactList();
+                return;
             }
         }
     }
@@ -208,27 +226,28 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
         MenuItem menuItem = menu.findItem(R.id.mnuSearch);
         searchView.setMenuItem(menuItem);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSearchViewListener(this);
+        mSearchHelper = new SearchViewHelper(searchView, this);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+        // Inflate a menu resource providing context menu items
+        getMenuInflater().inflate(R.menu.mnu_main_action_mode, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+        return false;
+    }
+
+    @Override
+    public boolean onActionItemClicked(final ActionMode mode, MenuItem item) {
 
         try {
             // Checks the touched menu
             switch (item.getItemId()) {
-                // If touched at back button
-                case android.R.id.home:
-                    //If it doesn't has a view, so we don't have to do anything
-                    if (mSelectedView == null)
-                        break;
-
-                    //Otherwise, go back to the normal
-                    unSelectView();
-                    break;
-
                 case R.id.mnuRemove:
                     UtilView.createAlertDialog(
                             this,
@@ -239,7 +258,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
                                     try {
                                         mContactRN.removeContact(mAdapter.getContact(mSelectedPosition));
                                         updateList(UPDATE_ALL_LIST);
-                                        unSelectView();
+                                        mode.finish();
                                     } catch (Exception error) {
                                         Log.e("Error", "Error at onClick in " + getClass().getName() + ". " + error.getMessage());
                                     }
@@ -249,11 +268,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    try {
-                                        unSelectView();
-                                    } catch (Exception error) {
-                                        Log.e("Error", "Error at onClick in " + getClass().getName() + ". " + error.getMessage());
-                                    }
+                                    mode.finish();
                                 }
                             },
                             getString(R.string.attention),
@@ -266,43 +281,12 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
             Log.e("Error", "Error at onOptionsItemSelected in " + getClass().getName() + ". " + error.getMessage());
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        //If hasn't text, do nothing
-        if (query.length() == 0)
-            return false;
-
-        mSearchPressed = true;
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        //If hasn't text, do nothing
-        if (newText.length() == 0 || mSearchPressed) {
-            if (newText.length() > 0)
-                mSearchPressed = false;
-            return false;
-        }
-
-        fillContactList(newText);
-        return false;
-    }
-
-    @Override
-    public void onSearchViewShown() {
-        fillContactList();
-    }
-
-    @Override
-    public void onSearchViewClosed() {
-        if (!mSearchPressed || mAdapter.getItemCount() == 0)
-            fillContactList();
-
-        mSearchPressed = false;
+    public void onDestroyActionMode(ActionMode mode) {
+        changeToolbarMenu(false);
     }
 
     @Override
@@ -316,7 +300,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
 
             //Updates just the end
             if (requestCode == REQUEST_CONTACT_INSERTION) {
-                updateListNewList();
+                updateListToBringNewContacts();
             }
         } catch (Exception error) {
             Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());

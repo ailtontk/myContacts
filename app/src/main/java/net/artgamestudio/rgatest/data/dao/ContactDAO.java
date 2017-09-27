@@ -32,8 +32,10 @@ public class ContactDAO extends DAOBase<Contact> {
         try {
             String where = null;
             //If has name, put on where
-            if (name != null && name.length > 0)
-                where = name[0];
+            if (name != null && name.length > 0) {
+                where = "name like ?";
+                name[0] = "%" + name[0] + "%";
+            }
 
             //Search
             cursor = mDb.query(Param.Tables.CONTACTS, null, where, name, null, null, null);

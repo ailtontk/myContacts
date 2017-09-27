@@ -84,7 +84,7 @@ public class UtilView {
      * @param view The view to change
      * @param selected True if is selected false otherwise
      */
-    public static void setSelected(Context context, View view, boolean selected) throws Exception {
+    public static void setSelected(Context context, View view, boolean selected) {
         view.setSelected(selected);
         view.setBackgroundColor(selected ? ContextCompat.getColor(context, R.color.colorSelected) : ContextCompat.getColor(context, R.color.colorUnselected));
     }
