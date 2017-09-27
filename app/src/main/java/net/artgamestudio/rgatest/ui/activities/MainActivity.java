@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -160,6 +161,12 @@ public class MainActivity extends BaseActivity implements ActionMode.Callback {
      */
     private void changeToolbarMenu(boolean remove) {
         UtilView.setSelected(this, mSelectedView, remove);
+
+        //Changes navigation bar for material design
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(remove ? ContextCompat.getColor(this, R.color.colorGrey9) :
+                    ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        }
 
         //If its to remove an item, starts action mode
         if (remove) {
