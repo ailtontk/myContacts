@@ -64,9 +64,8 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
     @Override
     public void setupToolbar() throws Exception {
         //Sets toolbar
-        toolbar.setNavigationIcon(R.mipmap.ic_launcher_round);
+        toolbar.setNavigationIcon(R.mipmap.ic_transparent);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -161,7 +160,7 @@ public class MainActivity extends BaseActivity implements MaterialSearchView.OnQ
         toolbar.getMenu().findItem(R.id.mnuRemove).setVisible(remove);
         toolbar.getMenu().findItem(R.id.mnuSearch).setVisible(!remove);
 
-        toolbar.setNavigationIcon(remove ? R.drawable.ic_back_arrow : R.mipmap.ic_launcher_round);
+        toolbar.setNavigationIcon(remove ? R.drawable.ic_back_arrow : R.mipmap.ic_transparent);
     }
 
     /**
