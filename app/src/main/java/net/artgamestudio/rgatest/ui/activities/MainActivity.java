@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity implements ActionMode.Callback {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
             //Updates the changed position
-            if (requestCode == REQUEST_CONTACT_INFO) {
+            if (requestCode == REQUEST_CONTACT_INFO && resultCode == RESULT_OK) {
                 updateList(data.getIntExtra(Param.Intent.CONTACT_POSITION, UPDATE_ALL_LIST));
                 return;
             }

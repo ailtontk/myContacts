@@ -5,8 +5,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -16,10 +16,16 @@ import net.artgamestudio.rgatest.R;
 import net.artgamestudio.rgatest.base.BaseActivity;
 import net.artgamestudio.rgatest.data.pojo.Contact;
 import net.artgamestudio.rgatest.data.rn.ContactRN;
+import net.artgamestudio.rgatest.util.CalendarHelper;
+import net.artgamestudio.rgatest.util.DateFormatter;
 import net.artgamestudio.rgatest.util.Param;
 import net.artgamestudio.rgatest.util.Util;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
+import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Ailton on 24/09/2017 for artGS.<br>
@@ -30,7 +36,7 @@ public class EditContactActivity extends BaseActivity {
 
     /***** VIEWS *****/
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.ivPhoto) ImageView ivPhoto;
+    @BindView(R.id.ivPhoto) CircleImageView ivPhoto;
     @BindView(R.id.etName) EditText etName;
     @BindView(R.id.etEmail) EditText etEmail;
     @BindView(R.id.etBorn) EditText etBorn;
@@ -142,6 +148,27 @@ public class EditContactActivity extends BaseActivity {
         }
 
         return true;
+    }
+
+    @OnClick(R.id.etBorn)
+    public void onClick(View view) {
+        if (etBorn.getText() == null || etBorn.getText().toString().length() == 0) {
+            new CalendarHelper(this, this, 0).show();
+            return;
+        }
+
+        Calendar calendar = DateFormatter.dateToCalendar(DateFormatter.DATE_DEFAULT, etBorn.getText().toString());
+        new CalendarHelper(this, this, 0).show(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Override
+    protected void onReceiveData(Class fromClass, int id, boolean result, Object... objects) throws Exception {
+        if (fromClass == CalendarHelper.class) {
+            if (id == Param.ComponentCompact.CALENDAR_DATE_SETTED) {
+                etBorn.setText(DateFormatter.format(DateFormatter.DATE_DEFAULT, (Calendar) objects[1]));
+            }
+        }
     }
 
     @Override

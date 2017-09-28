@@ -41,6 +41,8 @@ public abstract class Param {
         public static final int SEARCH_TEXT = 11;
         public static final int SEARCH_SHOWN = 12;
         public static final int SEARCH_CLOSED = 13;
+
+        public static final int CALENDAR_DATE_SETTED = 21;
     }
 
     /**

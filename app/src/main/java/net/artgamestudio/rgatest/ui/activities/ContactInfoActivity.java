@@ -49,6 +49,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
     private Contact mContact;
     private int mContactId;
     private int mContactPosition;
+    private boolean mHasChanged;
     private boolean mIsBackgroundWhite;
     private boolean mCanChangeColor;
 
@@ -86,7 +87,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
 
         //If image has white background, change the icons to black while expanded
         if (mIsBackgroundWhite) {
-            colToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.colorGrey7));
+            colToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.colorGrey9));
         }
     }
 
@@ -156,6 +157,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     try {
+                                        mHasChanged = true;
                                         mContactRN.removeContact(mContact);
                                         finishPassingPosition(UPDATE_ALL_LIST);
                                     } catch (Exception error) {
@@ -183,7 +185,8 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
 
         try {
             //If its coming from edit contact screen, updates the contact object and updates screen
-            if (requestCode == REQUEST_EDIT_CONTACT) {
+            if (requestCode == REQUEST_EDIT_CONTACT && resultCode == RESULT_OK) {
+                mHasChanged = true;
                 mContact = mContactRN.getContact(data.getIntExtra(Param.Intent.CONTACT_ID, -1));
                 addContactInfoOnFields(mContact);
             }
@@ -242,7 +245,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
         Intent intent = new Intent();
         intent.putExtra(Param.Intent.CONTACT_POSITION, position);
 
-        setResult(RESULT_OK, intent);
+        setResult(mHasChanged ? RESULT_OK : RESULT_CANCELED, intent);
         supportFinishAfterTransition();
     }
 
