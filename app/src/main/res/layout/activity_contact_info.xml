@@ -179,6 +179,10 @@
 
             </android.support.v7.widget.CardView>
 
+            <!-- Extra space for scrolling -->
+            <android.support.v4.widget.Space
+                android:layout_width="wrap_content"
+                android:layout_height="200dp" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

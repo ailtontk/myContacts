@@ -50,6 +50,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
     private int mContactId;
     private int mContactPosition;
     private boolean mIsBackgroundWhite;
+    private boolean mCanChangeColor;
 
     /***** CONSTANTS *****/
     private final int REQUEST_EDIT_CONTACT = 1;
@@ -76,11 +77,16 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
     @Override
     public void setupToolbar() throws Exception {
         setSupportActionBar(toolbar);
+        appBar.addOnOffsetChangedListener(this);
+
+        //changes the status color
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorGrey9));
+        }
 
         //If image has white background, change the icons to black while expanded
         if (mIsBackgroundWhite) {
             colToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.colorGrey7));
-            appBar.addOnOffsetChangedListener(this);
         }
     }
 
@@ -100,11 +106,6 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
                     .load(mContact.getPhoto())
                     .apply(requestOptions)
                     .into(ivPhoto);
-
-            //changes the status color
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorGrey9));
-            }
         }
 
         addContactInfoOnFields(mContact);
@@ -193,28 +194,48 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if (verticalOffset < -50 && verticalOffset > -390)
+        if (verticalOffset < -10 && verticalOffset > -450)
             return;
 
         MenuItem mnuRemove = toolbar.getMenu().findItem(R.id.mnuRemove);
         MenuItem mnuEdit = toolbar.getMenu().findItem(R.id.mnuEdit);
 
-        if (mnuEdit == null || mnuRemove == null) {
+        if (mnuEdit == null || mnuRemove == null)
             return;
-        }
 
-        //Its Collapsed
-        if (verticalOffset > -300) {
+        //Its Expanded
+        if (verticalOffset > -450 && !mCanChangeColor) {
+            mCanChangeColor = true;
+
+            //changes the status color
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorGrey9));
+            }
+
+            if (!mIsBackgroundWhite)
+                return;
+
             toolbar.setNavigationIcon(R.drawable.ic_back_arrow_dark);
             mnuRemove.setIcon(R.drawable.ic_delete_dark);
             mnuEdit.setIcon(R.drawable.ic_edit_dark);
-            return;
         }
+        //Its collapsed
+        else if (verticalOffset < -10 && mCanChangeColor){
+            mCanChangeColor = false;
 
-        //Is expanded
-        toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
-        mnuRemove.setIcon(R.drawable.ic_delete);
-        mnuEdit.setIcon(R.drawable.ic_edit);
+            //changes the status color
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
+            }
+
+            if (!mIsBackgroundWhite)
+                return;
+
+            //Is expanded
+            toolbar.setNavigationIcon(R.drawable.ic_back_arrow);
+            mnuRemove.setIcon(R.drawable.ic_delete);
+            mnuEdit.setIcon(R.drawable.ic_edit);
+        }
     }
 
     private void finishPassingPosition(int position) {
@@ -232,7 +253,7 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
         //Adds transition effect if its lollipop or above
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, ivPhoto, getString(R.string.transition_photo));
-            startActivity(intent, options.toBundle());
+            startActivityForResult(intent, REQUEST_EDIT_CONTACT, options.toBundle());
             return;
         }
 
