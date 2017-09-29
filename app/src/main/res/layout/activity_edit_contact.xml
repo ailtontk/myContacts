@@ -32,13 +32,29 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <!-- Background image-->
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivPhoto"
+            <!-- Profile image-->
+            <RelativeLayout
                 android:layout_width="@dimen/edit_image_height"
                 android:layout_height="@dimen/edit_image_height"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/ic_no_picture" />
+                android:layout_marginTop="20dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_no_picture" />
+
+                <ImageView
+                    android:id="@+id/ivCam"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/ic_camera"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+
 
             <!-- Info Card -->
             <android.support.v7.widget.CardView

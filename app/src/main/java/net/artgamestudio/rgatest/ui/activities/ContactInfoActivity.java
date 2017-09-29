@@ -96,19 +96,6 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
         mContactRN = new ContactRN(this, this);
         mContact = mContactRN.getContact(mContactId);
 
-        //If has photo, put it on screen
-        if (mContact.getPhoto() != null && mContact.getPhoto().length() > 0) {
-            //Defines the image size
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions.centerCrop();
-
-            //Put on screen
-            Glide.with(this)
-                    .load(mContact.getPhoto())
-                    .apply(requestOptions)
-                    .into(ivPhoto);
-        }
-
         addContactInfoOnFields(mContact);
     }
 
@@ -116,6 +103,19 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
      * Adds the contact info on screen
      */
     private void addContactInfoOnFields(Contact contact) throws Exception {
+        //If has photo, put it on screen
+        if (contact.getPhoto() != null && contact.getPhoto().length() > 0) {
+            //Defines the image size
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.centerCrop();
+
+            //Put on screen
+            Glide.with(this)
+                    .load(contact.getPhoto())
+                    .apply(requestOptions)
+                    .into(ivPhoto);
+        }
+
         colToolbar.setTitle(contact.getName());
         tvEmail.setText(contact.getEmail());
         tvBorn.setText(contact.getBorn());

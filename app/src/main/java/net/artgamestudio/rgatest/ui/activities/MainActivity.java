@@ -68,6 +68,7 @@ public class MainActivity extends BaseActivity implements ActionMode.Callback {
 
     @Override
     public void setupData() throws Exception {
+        toolbar.setNavigationIcon(R.mipmap.ic_transparent);
         setSupportActionBar(toolbar);
 
         mContactRN = new ContactRN(this, this);

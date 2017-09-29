@@ -104,7 +104,6 @@ public class ContactRN extends BaseRN {
      * @return True if was successfully saved, false otherwise
      */
     public boolean saveContactOnDatabase(Contact currentContact, Contact newContact) {
-
         try {
             if (currentContact != null) {
                 currentContact = getContact(currentContact.getId());
@@ -118,7 +117,6 @@ public class ContactRN extends BaseRN {
 
             //otherwise, updates the current contact
             newContact.setId(currentContact.getId());
-            newContact.setPhoto(currentContact.getPhoto());
             updateContact(newContact);
         } catch (Exception error) {
             Log.e("error", "Error at getAndImportContacts in " + ContactRN.this.getClass() + ". Error: " + error.getMessage());

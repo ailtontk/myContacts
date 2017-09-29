@@ -1,6 +1,15 @@
 package net.artgamestudio.rgatest.ui.activities;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +28,7 @@ import net.artgamestudio.rgatest.data.rn.ContactRN;
 import net.artgamestudio.rgatest.util.CalendarHelper;
 import net.artgamestudio.rgatest.util.DateFormatter;
 import net.artgamestudio.rgatest.util.Param;
+import net.artgamestudio.rgatest.util.RealPathUtil;
 import net.artgamestudio.rgatest.util.Util;
 
 import java.util.Calendar;
@@ -46,6 +56,11 @@ public class EditContactActivity extends BaseActivity {
     private ContactRN mContactRN;
     private Contact mContact;
     private int mContactId;
+    private String mSelectedPath;
+
+    /***** CONSTANTS *****/
+    private final int REQUEST_CHOOSE_PICUTURE = 1;
+    private static final int PERMISSION_SDCARD = 1;
 
     @Override
     public int setView() throws Exception {
@@ -69,7 +84,8 @@ public class EditContactActivity extends BaseActivity {
         mContactRN = new ContactRN(this, this);
 
         mContact = mContactRN.getContact(mContactId);
-        if (mContactId != -1) {
+        if (mContact != null) {
+            mSelectedPath = mContact.getPhoto();
             addContactInfoOnFields(mContact);
         }
     }
@@ -86,7 +102,7 @@ public class EditContactActivity extends BaseActivity {
 
             //Put on screen
             Glide.with(this)
-                    .load(mContact.getPhoto())
+                    .load(contact.getPhoto())
                     .apply(requestOptions)
                     .into(ivPhoto);
         }
@@ -108,6 +124,7 @@ public class EditContactActivity extends BaseActivity {
         contact.setEmail(etEmail.getText().toString());
         contact.setBorn(etBorn.getText().toString());
         contact.setBio(etBio.getText().toString());
+        contact.setPhoto(mSelectedPath);
         return contact;
     }
 
@@ -150,16 +167,32 @@ public class EditContactActivity extends BaseActivity {
         return true;
     }
 
-    @OnClick(R.id.etBorn)
+    @OnClick({R.id.etBorn, R.id.ivCam})
     public void onClick(View view) {
-        if (etBorn.getText() == null || etBorn.getText().toString().length() == 0) {
-            new CalendarHelper(this, this, 0).show();
-            return;
-        }
 
-        Calendar calendar = DateFormatter.dateToCalendar(DateFormatter.DATE_DEFAULT, etBorn.getText().toString());
-        new CalendarHelper(this, this, 0).show(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH));
+        try {
+            switch (view.getId()) {
+                case R.id.etBorn:
+                    if (etBorn.getText() == null || etBorn.getText().toString().length() == 0) {
+                        new CalendarHelper(this, this, 0).show();
+                        return;
+                    }
+
+                    Calendar calendar = DateFormatter.dateToCalendar(DateFormatter.DATE_DEFAULT, etBorn.getText().toString());
+                    new CalendarHelper(this, this, 0).show(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                            calendar.get(Calendar.DAY_OF_MONTH));
+                    break;
+
+                case R.id.ivCam:
+                    if (requestPermissions())
+                        return;
+
+                    startChoosePictureActivity();
+                    break;
+            }
+        }  catch (Exception error) {
+            Log.e("Error", "Error at onClick in " + getClass().getName() + ". " + error.getMessage());
+        }
     }
 
     @Override
@@ -168,6 +201,25 @@ public class EditContactActivity extends BaseActivity {
             if (id == Param.ComponentCompact.CALENDAR_DATE_SETTED) {
                 etBorn.setText(DateFormatter.format(DateFormatter.DATE_DEFAULT, (Calendar) objects[1]));
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            if (requestCode == REQUEST_CHOOSE_PICUTURE && resultCode == RESULT_OK) {
+                Uri selectedImageUri = data.getData();
+
+                //changes the status color
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    mSelectedPath = RealPathUtil.getRealPathFromURI_API19(this, selectedImageUri);
+                else
+                    mSelectedPath = RealPathUtil.getRealPathFromURI_API11to18(this, selectedImageUri);
+
+                addContactInfoOnFields(getEditedContact());
+            }
+        } catch (Exception error) {
+            Log.e("Error", "Error at onActivityResult in " + getClass().getName() + ". " + error.getMessage());
         }
     }
 
@@ -218,5 +270,79 @@ public class EditContactActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Request all necessaries permissions
+     *
+     * @return True if permission is needed, false otherwise
+     */
+    private boolean requestPermissions() throws Exception {
+        // Check the necessaries permissions
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show a explanation about the permission?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.permission_title))
+                        .setMessage(getString(R.string.permission_desc))
+                        .setPositiveButton(getString(R.string.permission_ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // It doesn't need explanations
+                                ActivityCompat.requestPermissions(EditContactActivity.this,
+                                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                        PERMISSION_SDCARD);
+                            }
+                        })
+                        .show();
+
+            } else {
+                // It doesn't need explanations
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        PERMISSION_SDCARD);
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        try {
+            //Check what permission were received
+            switch (requestCode) {
+                //If were write on sdcard permission
+                case PERMISSION_SDCARD:
+                    //If it doesn't gave permission
+                    if (grantResults.length > 0
+                            && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, getString(R.string.permission_desc), Toast.LENGTH_LONG).show();
+                        return;
+                    }
+            }
+
+            startChoosePictureActivity();
+        } catch (Exception error) {
+            Log.e("Error", "Error while receiving permission at " + getClass().getName() + ". " + error.getMessage());
+        }
+    }
+
+    /**
+     * Starts an activity for picture selection. Result will be receive on OnActivityResult method.
+     */
+    public void startChoosePictureActivity() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,
+                getString(R.string.edit_select_picutre)), REQUEST_CHOOSE_PICUTURE);
     }
 }

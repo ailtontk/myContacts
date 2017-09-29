@@ -21,6 +21,11 @@
     <string name="splash_content_logo">The RGA logo</string>
     <string name="splash_faileD_to_dowload">Contact list download failed! Try again later</string>
 
+    <!--***************** PERMISSION *****************-->
+    <string name="permission_title">We need your permission!</string>
+    <string name="permission_desc">We need your permission to access your pictures. Do not worry, we will not change any file.</string>
+    <string name="permission_ok">Got it</string>
+
     <!--***************** MAIN SCREEN *****************-->
     <string name="main_search_text">Type a contact name…</string>
     <string name="main_no_results">We do not found any contacts ;(</string>
@@ -45,5 +50,7 @@
 
     <string name="edit_save_success">Successfully saved!</string>
     <string name="edit_save_failed">Saving contact failed!</string>
+
+    <string name="edit_select_picutre">Select Picture</string>
 
 </resources>
