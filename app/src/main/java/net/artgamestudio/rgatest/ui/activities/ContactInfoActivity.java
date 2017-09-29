@@ -188,6 +188,12 @@ public class ContactInfoActivity extends BaseActivity implements AppBarLayout.On
             if (requestCode == REQUEST_EDIT_CONTACT && resultCode == RESULT_OK) {
                 mHasChanged = true;
                 mContact = mContactRN.getContact(data.getIntExtra(Param.Intent.CONTACT_ID, -1));
+                mIsBackgroundWhite = data.getBooleanExtra(Param.Intent.IS_WHITE, false);
+
+                //If image has white background, change the icons to black while expanded
+                if (mIsBackgroundWhite) {
+                    colToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.colorGrey9));
+                }
                 addContactInfoOnFields(mContact);
             }
         } catch (Exception error) {

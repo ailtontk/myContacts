@@ -30,6 +30,7 @@ import net.artgamestudio.rgatest.util.DateFormatter;
 import net.artgamestudio.rgatest.util.Param;
 import net.artgamestudio.rgatest.util.RealPathUtil;
 import net.artgamestudio.rgatest.util.Util;
+import net.artgamestudio.rgatest.util.UtilView;
 
 import java.util.Calendar;
 
@@ -256,6 +257,7 @@ public class EditContactActivity extends BaseActivity {
                     if (mContact != null) {
                         Intent intent = new Intent();
                         intent.putExtra(Param.Intent.CONTACT_ID, mContact.getId());
+                        intent.putExtra(Param.Intent.IS_WHITE, UtilView.checkWhiteBackGroundInFrontOfIcons(ivPhoto));
                         setResult(result ? RESULT_OK : RESULT_CANCELED, intent);
                         finish();
                         break;
