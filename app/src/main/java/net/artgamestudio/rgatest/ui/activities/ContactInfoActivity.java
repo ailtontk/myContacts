@@ -3,7 +3,6 @@ package net.artgamestudio.rgatest.ui.activities;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;

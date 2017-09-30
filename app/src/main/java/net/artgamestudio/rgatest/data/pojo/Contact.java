@@ -19,6 +19,14 @@ public class Contact implements Serializable {
     public Contact() {
     }
 
+    public Contact(int id, String name, String email, String born, String bio) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.born = born;
+        this.bio = bio;
+    }
+
     public int getId() {
         return id;
     }

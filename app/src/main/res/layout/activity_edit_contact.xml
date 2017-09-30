@@ -78,7 +78,7 @@
                         android:layout_margin="10dp"
                         android:maxLines="1"
                         android:maxLength="20"
-                        android:inputType="textCapSentences"
+                        android:inputType="textCapWords"
                         android:hint="@string/edit_name_hint"/>
 
                     <!-- EMAIL -->
@@ -163,7 +163,7 @@
                             android:layout_toEndOf="@id/ivBio"
                             android:layout_margin="5dp"
                             android:layout_centerVertical="true"
-                            android:inputType="textMultiLine"
+                            android:inputType="textCapSentences|textMultiLine"
                             android:hint="@string/edit_bio_hint"/>
                     </RelativeLayout>
                 </LinearLayout>
