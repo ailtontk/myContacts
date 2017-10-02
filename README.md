@@ -26,7 +26,7 @@ Esta foi utilizada para facilitar a criação de imagens circulares sem a necess
 Não há segredo aqui! Baixa executar o projeto ou no Android Studio, clicar em build > Generate APK para gerar um APK para instalação.
 
 ## About the code
-O projeto está sobre a estrutura MVC possuindo um nível de 3 camadas de responsabilidades, sendo elas: UI, RN e as camadas de dados.
+O projeto está sobre a estrutura MVC possuindo 3 camadas de responsabilidades, sendo elas: UI, RN e as camadas de dados.
 
 <b>UI</B><br>
 A Camada de UI é composta por activities, fragments, adapters ou views customizadas. O nível de responsabilidade desta camada é controlar os elementos visiveis ao usuário e solicitar dados para a camada RN. Os membros desta camada jamais terão acesso direto ao banco de dados ou classes contendo chamadas de rede.
