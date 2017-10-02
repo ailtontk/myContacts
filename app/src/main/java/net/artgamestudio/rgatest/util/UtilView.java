@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
@@ -208,7 +209,12 @@ public class UtilView {
     }
 
     public static boolean checkWhiteBackGroundInFrontOfIcons(ImageView imageView) {
-        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+        BitmapDrawable drawable = ((BitmapDrawable)imageView.getDrawable());
+
+        if (drawable == null)
+            return false;
+
+        Bitmap bitmap = drawable.getBitmap();
         int height = 2;
         int pixelCount = 0;
 
