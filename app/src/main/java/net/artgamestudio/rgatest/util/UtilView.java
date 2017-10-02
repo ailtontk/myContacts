@@ -223,7 +223,7 @@ public class UtilView {
             }
         }
 
-        //If has more than 200 white pixels, its a white image
-        return pixelCount > 200;
+        //If has more than 270 white pixels, its a white image
+        return pixelCount > 270;
     }
 }
